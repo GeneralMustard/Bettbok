@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * BettListFragment is responsible for the Fragment connected to a list of Betts.
+ */
 public class BettListFragment extends Fragment {
 
     private RecyclerView mBettRecyclerView;
@@ -31,17 +33,19 @@ public class BettListFragment extends Fragment {
         mBettRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
-
         return v;
     }
 
     private void updateUI() {
         List<Bett> bett = BettLab.get(getActivity()).getAllBett();
 
+
         if (mBettAdapter == null) {
+            // A new adapter is needed.
             mBettAdapter = new BettAdapter(bett);
             mBettRecyclerView.setAdapter(mBettAdapter);
         } else {
+            // An adapter already exists and needs to be updated to reflect possible changes.
             mBettAdapter.notifyDataSetChanged();
         }
     }
@@ -63,7 +67,7 @@ public class BettListFragment extends Fragment {
         @Override
         public BettViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_bett, parent, false);
-            return new BettViewHolder(v, mBett);
+            return new BettViewHolder(v);
         }
 
         @Override
@@ -72,7 +76,8 @@ public class BettListFragment extends Fragment {
             holder.mPlaceringTextView.setText(currentBett.getmPlacering());
 
             Calendar c = currentBett.getmDatum();
-            String date = "Den " + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.MONTH) + " -" + c.get(Calendar.YEAR);
+            String date = "Den " + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.MONTH) +
+                    " -" + c.get(Calendar.YEAR); //TODO
             holder.mDatumTextView.setText(date);
         }
 
@@ -85,7 +90,7 @@ public class BettListFragment extends Fragment {
             private TextView mPlaceringTextView;
             private TextView mDatumTextView;
 
-            BettViewHolder(@NonNull View itemView, final List<Bett> bett) {
+            BettViewHolder(@NonNull View itemView) {
                 super(itemView);
                 mPlaceringTextView = itemView.findViewById(R.id.bett_placering_text_view);
                 mDatumTextView = itemView.findViewById(R.id.bett_datum_text_view);
@@ -93,21 +98,9 @@ public class BettListFragment extends Fragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        /*Toast.makeText(getActivity(),
-                                mBett.get(getAbsoluteAdapterPosition()).getmPlacering()
-                                        + " clicked!", Toast.LENGTH_SHORT)
-                                        .show();*/
-
                         Intent intent = BettPagerActivity.newIntent(getActivity(),
                                 mBett.get(getAbsoluteAdapterPosition()).getmId());
                         startActivity(intent);
-
-                        /*IDeed deed = deeds.get(getAdapterPosition()); TODO
-                        Intent intent = new Intent(v.getContext(), ViewDeed.class);
-
-                        new DeedController().setCurrentDeedHandler(deed.getUuid());
-                        v.getContext().startActivity(intent);*/
                     }
                 });
             }

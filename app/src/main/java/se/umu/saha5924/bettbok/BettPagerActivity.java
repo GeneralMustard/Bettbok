@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -21,7 +22,6 @@ public class BettPagerActivity extends AppCompatActivity {
     private ViewPager2 mViewPager;
     private FragmentStateAdapter mPagerAdapter;
     private List<Bett> mBett;
-    //private UUID mBettId;
 
     public static Intent newIntent(Context packageContext, UUID id) {
         Intent intent = new Intent(packageContext, BettPagerActivity.class);
@@ -35,10 +35,10 @@ public class BettPagerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bett_pager);
 
         UUID bettId = (UUID) getIntent().getSerializableExtra(EXTRA_BETT_ID);
-
         mBett = BettLab.get(this).getAllBett();
-        mViewPager = findViewById(R.id.bett_view_pager);
+
         mPagerAdapter = new ScreenSlidePagerAdapter(this);
+        mViewPager = findViewById(R.id.bett_view_pager);
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setCurrentItem(findCurrentItem(bettId));
     }
@@ -56,10 +56,9 @@ public class BettPagerActivity extends AppCompatActivity {
             super(fa);
         }
 
+        @NonNull
         @Override
         public Fragment createFragment(int position) {
-            //return new BettFragment(); //TODO
-            //return BettFragment.newInstance(mBettId);
             Bett bett = mBett.get(position);
             return BettFragment.newInstance(bett.getmId());
         }

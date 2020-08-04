@@ -6,8 +6,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+/*
+    SingleFragmentActivity is a class that contains
+    the functionality needed for hosting fragments.
+ */
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 
+    /**
+     * Classes that extends SingleFragmentActivity needs to override
+     * this method to return the Fragment the class is hosting.
+     * @return The Fragment to be hosted.
+     */
     protected abstract Fragment createFragment();
 
     @Override
