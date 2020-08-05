@@ -11,7 +11,11 @@ public class Bett {
     private String mPlacering;
 
     public Bett() {
-        mId = UUID.randomUUID();
+        this(UUID.randomUUID());
+    }
+
+    public Bett(UUID id) {
+        mId = id;
         mDatum = Calendar.getInstance();
         mDatum.setTime(new Date());
     }

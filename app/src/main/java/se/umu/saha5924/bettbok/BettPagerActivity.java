@@ -35,7 +35,7 @@ public class BettPagerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bett_pager);
 
         UUID bettId = (UUID) getIntent().getSerializableExtra(EXTRA_BETT_ID);
-        mBett = BettLab.get(this).getAllBett();
+        mBett = BettLab.get(this).getBites();
 
         mPagerAdapter = new ScreenSlidePagerAdapter(this);
         mViewPager = findViewById(R.id.bett_view_pager);

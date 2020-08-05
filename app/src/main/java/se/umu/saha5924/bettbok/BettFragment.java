@@ -54,7 +54,15 @@ public class BettFragment extends Fragment {
 
         // Retrieve the UUID stored as an argument and find the Bett connected to it.
         UUID bettId = (UUID) getArguments().getSerializable(ARG_BETT_ID);
-        mBett = BettLab.getBett(bettId);
+        mBett = BettLab.get(getActivity()).getBett(bettId);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // Update BiteLab's Bite when BiteFragment is done.
+        BettLab.get(getActivity()).updateBite(mBett);
     }
 
     @Nullable

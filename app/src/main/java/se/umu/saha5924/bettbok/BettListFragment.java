@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Calendar;
 import java.util.List;
 
+import se.umu.saha5924.bettbok.database.BiteDbSchema;
+
 /**
  * BettListFragment is responsible for the Fragment connected to a list of Betts.
  */
@@ -46,15 +48,15 @@ public class BettListFragment extends Fragment {
     }
 
     private void updateUI() {
-        List<Bett> bett = BettLab.get(getActivity()).getAllBett();
-
+        List<Bett> bites = BettLab.get(getActivity()).getBites();
 
         if (mBettAdapter == null) {
             // A new adapter is needed.
-            mBettAdapter = new BettAdapter(bett);
+            mBettAdapter = new BettAdapter(bites);
             mBettRecyclerView.setAdapter(mBettAdapter);
         } else {
-            // An adapter already exists and needs to be updated to reflect possible changes.
+            // An adapter already exists and is updated to reflect possible changes.
+            mBettAdapter.setBites(bites);
             mBettAdapter.notifyDataSetChanged();
         }
     }
@@ -113,6 +115,15 @@ public class BettListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mBett.size();
+        }
+
+        /**
+         * Replaces the Bites the Adapter shows.
+         *
+         * @param bites The Bites the Adapter should show.
+         */
+        public void setBites(List<Bett> bites) {
+            mBett = bites;
         }
 
         private class BettViewHolder extends RecyclerView.ViewHolder {
