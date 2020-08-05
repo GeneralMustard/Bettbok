@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BettPagerActivity"/>
+        <activity
+            android:name=".BettPagerActivity"
+            android:parentActivityName=".BettListActivity">
+        </activity>
         <activity
             android:name=".BettListActivity">
             <intent-filter>

@@ -20,11 +20,17 @@ public class BettLab {
     }
     private BettLab(Context context) {
         mBett = new ArrayList<>();
+
+        /*
         for (int i = 0; i < 100; i++) {
             Bett bett = new Bett();
             bett.setmPlacering("Bett #" + i);
             mBett.add(bett);
-        }
+        }*/
+    }
+
+    public void addBite(Bett b) {
+        mBett.add(b);
     }
 
     public List<Bett> getAllBett() {

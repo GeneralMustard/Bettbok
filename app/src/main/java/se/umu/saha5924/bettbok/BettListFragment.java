@@ -3,6 +3,9 @@ package se.umu.saha5924.bettbok;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,6 +26,12 @@ public class BettListFragment extends Fragment {
 
     private RecyclerView mBettRecyclerView;
     private BettAdapter mBettAdapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -54,6 +63,26 @@ public class BettListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateUI();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_bite_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.new_bite:
+                Bett bite = new Bett();
+                BettLab.get(getActivity()).addBite(bite);
+                Intent intent = BettPagerActivity.newIntent(getActivity(), bite.getmId());
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private class BettAdapter extends RecyclerView.Adapter<BettAdapter.BettViewHolder> {

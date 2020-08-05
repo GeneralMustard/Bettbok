@@ -11,4 +11,6 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
     <string name="bett_placering">Vart på kroppen satt bettet?</string>
+    <string name="date_picker_title">Datum för bettet:</string>
+    <string name="new_bite">Nytt bett</string>
 </resources>
