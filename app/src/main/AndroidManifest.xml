@@ -10,11 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".BettPagerActivity"
-            android:parentActivityName=".BettListActivity">
+            android:name=".BitePagerActivity"
+            android:parentActivityName=".BiteListActivity">
         </activity>
         <activity
-            android:name=".BettListActivity">
+            android:name=".BiteListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

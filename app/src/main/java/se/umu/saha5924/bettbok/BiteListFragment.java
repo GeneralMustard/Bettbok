@@ -19,15 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Calendar;
 import java.util.List;
 
-import se.umu.saha5924.bettbok.database.BiteDbSchema;
-
 /**
- * BettListFragment is responsible for the Fragment connected to a list of Betts.
+ * BiteListFragment is responsible for the Fragment connected to a list of Bites.
  */
-public class BettListFragment extends Fragment {
+public class BiteListFragment extends Fragment {
 
-    private RecyclerView mBettRecyclerView;
-    private BettAdapter mBettAdapter;
+    private RecyclerView mBiteRecyclerView;
+    private BiteAdapter mBiteAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,24 +38,25 @@ public class BettListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_bett_list, container, false);
 
-        mBettRecyclerView = v.findViewById(R.id.bett_recycler_view);
-        mBettRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mBiteRecyclerView = v.findViewById(R.id.bett_recycler_view);
+        mBiteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
         return v;
     }
 
+    // Updates the list of Bites to reflect the current state of each Bite.
     private void updateUI() {
-        List<Bett> bites = BettLab.get(getActivity()).getBites();
+        List<Bite> bites = BiteLab.get(getActivity()).getBites();
 
-        if (mBettAdapter == null) {
+        if (mBiteAdapter == null) {
             // A new adapter is needed.
-            mBettAdapter = new BettAdapter(bites);
-            mBettRecyclerView.setAdapter(mBettAdapter);
+            mBiteAdapter = new BiteAdapter(bites);
+            mBiteRecyclerView.setAdapter(mBiteAdapter);
         } else {
             // An adapter already exists and is updated to reflect possible changes.
-            mBettAdapter.setBites(bites);
-            mBettAdapter.notifyDataSetChanged();
+            mBiteAdapter.setBites(bites);
+            mBiteAdapter.notifyDataSetChanged();
         }
     }
 
@@ -76,10 +75,11 @@ public class BettListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            // The user has requested a new Bite.
             case R.id.new_bite:
-                Bett bite = new Bett();
-                BettLab.get(getActivity()).addBite(bite);
-                Intent intent = BettPagerActivity.newIntent(getActivity(), bite.getmId());
+                Bite bite = new Bite();
+                BiteLab.get(getActivity()).addBite(bite);
+                Intent intent = BitePagerActivity.newIntent(getActivity(), bite.getId());
                 startActivity(intent);
                 return true;
             default:
@@ -87,34 +87,35 @@ public class BettListFragment extends Fragment {
         }
     }
 
-    private class BettAdapter extends RecyclerView.Adapter<BettAdapter.BettViewHolder> {
-        private List<Bett> mBett;
+    // TODO move to own class
+    private class BiteAdapter extends RecyclerView.Adapter<BiteAdapter.BiteViewHolder> {
+        private List<Bite> mBite;
 
-        public BettAdapter(List<Bett> bett) {
-            mBett = bett;
+        public BiteAdapter(List<Bite> bite) {
+            mBite = bite;
         }
 
         @NonNull
         @Override
-        public BettViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_bett, parent, false);
-            return new BettViewHolder(v);
+        public BiteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_bite, parent, false);
+            return new BiteViewHolder(v);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull BettViewHolder holder, int position) {
-            Bett currentBett = mBett.get(position);
-            holder.mPlaceringTextView.setText(currentBett.getmPlacering());
+        public void onBindViewHolder(@NonNull BiteViewHolder holder, int position) {
+            Bite currentBite = mBite.get(position);
+            holder.mPlacementTextView.setText(currentBite.getPlacement());
 
-            Calendar c = currentBett.getmDatum();
+            Calendar c = currentBite.getCalendar();
             String date = "Den " + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.MONTH) +
                     " -" + c.get(Calendar.YEAR); //TODO
-            holder.mDatumTextView.setText(date);
+            holder.mCalendarTextView.setText(date);
         }
 
         @Override
         public int getItemCount() {
-            return mBett.size();
+            return mBite.size();
         }
 
         /**
@@ -122,24 +123,24 @@ public class BettListFragment extends Fragment {
          *
          * @param bites The Bites the Adapter should show.
          */
-        public void setBites(List<Bett> bites) {
-            mBett = bites;
+        public void setBites(List<Bite> bites) {
+            mBite = bites;
         }
 
-        private class BettViewHolder extends RecyclerView.ViewHolder {
-            private TextView mPlaceringTextView;
-            private TextView mDatumTextView;
+        private class BiteViewHolder extends RecyclerView.ViewHolder {
+            private TextView mPlacementTextView;
+            private TextView mCalendarTextView;
 
-            BettViewHolder(@NonNull View itemView) {
+            BiteViewHolder(@NonNull View itemView) {
                 super(itemView);
-                mPlaceringTextView = itemView.findViewById(R.id.bett_placering_text_view);
-                mDatumTextView = itemView.findViewById(R.id.bett_datum_text_view);
+                mPlacementTextView = itemView.findViewById(R.id.bite_placement_text_view);
+                mCalendarTextView = itemView.findViewById(R.id.bite_date_text_view);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = BettPagerActivity.newIntent(getActivity(),
-                                mBett.get(getAbsoluteAdapterPosition()).getmId());
+                        Intent intent = BitePagerActivity.newIntent(getActivity(),
+                                mBite.get(getAbsoluteAdapterPosition()).getId());
                         startActivity(intent);
                     }
                 });

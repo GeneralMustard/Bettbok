@@ -4,16 +4,15 @@
     android:layout_margin="16dp">
 
     <EditText
-        android:id="@+id/bett_placering"
+        android:id="@+id/bite_placement_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/bett_placering"
+        android:hint="@string/bite_placement"
         android:inputType="textShortMessage" />
     
     <Button
-        android:id="@+id/bett_datum"
+        android:id="@+id/bite_date_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bett_placering"/>
-
+        android:layout_below="@id/bite_placement_edit_text"/>
 </RelativeLayout>

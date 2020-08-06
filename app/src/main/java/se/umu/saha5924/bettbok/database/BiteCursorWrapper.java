@@ -6,7 +6,7 @@ import android.database.CursorWrapper;
 import java.util.Calendar;
 import java.util.UUID;
 
-import se.umu.saha5924.bettbok.Bett;
+import se.umu.saha5924.bettbok.Bite;
 
 import se.umu.saha5924.bettbok.database.BiteDbSchema.BiteTable;
 
@@ -24,16 +24,16 @@ public class BiteCursorWrapper extends CursorWrapper {
         super(cursor);
     }
 
-    public Bett getBite() {
+    public Bite getBite() {
         String uuidString = getString(getColumnIndex(BiteTable.Cols.UUID));
         String placement = getString(getColumnIndex(BiteTable.Cols.PLACEMENT));
         long calendar = getLong(getColumnIndex(BiteTable.Cols.CALENDAR));
 
-        Bett bite = new Bett(UUID.fromString(uuidString));
-        bite.setmPlacering(placement);
+        Bite bite = new Bite(UUID.fromString(uuidString));
+        bite.setPlacement(placement);
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(calendar);
-        bite.setmDatum(c);
+        bite.setCalendar(c);
 
         return bite;
     }

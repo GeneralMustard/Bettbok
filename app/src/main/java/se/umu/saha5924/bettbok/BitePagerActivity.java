@@ -15,37 +15,37 @@ import androidx.viewpager2.widget.ViewPager2;
 import java.util.List;
 import java.util.UUID;
 
-public class BettPagerActivity extends AppCompatActivity {
+public class BitePagerActivity extends AppCompatActivity {
 
-    private static final String EXTRA_BETT_ID = "se.umu.saha5924.bettbok.bett_id";
+    private static final String EXTRA_BITE_ID = "se.umu.saha5924.bettbok.bite_id";
 
     private ViewPager2 mViewPager;
     private FragmentStateAdapter mPagerAdapter;
-    private List<Bett> mBett;
+    private List<Bite> mBite;
 
     public static Intent newIntent(Context packageContext, UUID id) {
-        Intent intent = new Intent(packageContext, BettPagerActivity.class);
-        intent.putExtra(EXTRA_BETT_ID, id);
+        Intent intent = new Intent(packageContext, BitePagerActivity.class);
+        intent.putExtra(EXTRA_BITE_ID, id);
         return intent;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bett_pager);
+        setContentView(R.layout.activity_bite_pager);
 
-        UUID bettId = (UUID) getIntent().getSerializableExtra(EXTRA_BETT_ID);
-        mBett = BettLab.get(this).getBites();
+        UUID bettId = (UUID) getIntent().getSerializableExtra(EXTRA_BITE_ID);
+        mBite = BiteLab.get(this).getBites();
 
         mPagerAdapter = new ScreenSlidePagerAdapter(this);
-        mViewPager = findViewById(R.id.bett_view_pager);
+        mViewPager = findViewById(R.id.bite_view_pager);
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setCurrentItem(findCurrentItem(bettId));
     }
 
     private int findCurrentItem(UUID id) {
-        for (int i = 0; i < mBett.size(); i++) {
-            if (mBett.get(i).getmId().equals(id)) return i;
+        for (int i = 0; i < mBite.size(); i++) {
+            if (mBite.get(i).getId().equals(id)) return i;
         }
         return 0;
     }
@@ -59,13 +59,13 @@ public class BettPagerActivity extends AppCompatActivity {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            Bett bett = mBett.get(position);
-            return BettFragment.newInstance(bett.getmId());
+            Bite bite = mBite.get(position);
+            return BiteFragment.newInstance(bite.getId());
         }
 
         @Override
         public int getItemCount() {
-            return mBett.size();
+            return mBite.size();
         }
     }
 }

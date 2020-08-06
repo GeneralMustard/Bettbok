@@ -24,7 +24,7 @@ public class BiteBaseHelper extends SQLiteOpenHelper {
         );
     }
 
-    // Om databasens schema ändras => radera appen från telefonen innan omstart.
+    // TODO Om databasens schema ändras => radera appen från telefonen innan omstart.
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

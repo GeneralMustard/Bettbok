@@ -3,7 +3,6 @@ package se.umu.saha5924.bettbok;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
@@ -14,20 +13,17 @@ import se.umu.saha5924.bettbok.database.BiteBaseHelper;
 import se.umu.saha5924.bettbok.database.BiteCursorWrapper;
 import se.umu.saha5924.bettbok.database.BiteDbSchema.BiteTable;
 
-public class BettLab {
+public class BiteLab {
 
-    //private static List<Bett> mBett;
     private SQLiteDatabase mDatabase;
+    private static BiteLab biteLab;
 
-    private static BettLab bettLab;
-
-    public static BettLab get(Context context) {
-        if (bettLab == null) {
-            bettLab = new BettLab(context);
-        }
-        return bettLab;
+    public static BiteLab get(Context context) {
+        if (biteLab == null) biteLab = new BiteLab(context);
+        return biteLab;
     }
-    private BettLab(Context context) {
+
+    private BiteLab(Context context) {
         mDatabase = new BiteBaseHelper(context.getApplicationContext())
                 .getWritableDatabase();
 
@@ -42,13 +38,12 @@ public class BettLab {
         }*/
     }
 
-    public void addBite(Bett b) {
-        //mBett.add(b);
+    public void addBite(Bite b) {
         mDatabase.insert(BiteTable.NAME, null, getContentValues(b));
     }
 
-    public void updateBite(Bett b) {
-        String uuidString = b.getmId().toString();
+    public void updateBite(Bite b) {
+        String uuidString = b.getId().toString();
         ContentValues values = getContentValues(b);
 
         // The UUID is used to find and update the row in the database,
@@ -58,8 +53,8 @@ public class BettLab {
                 new String[] { uuidString });
     }
 
-    public List<Bett> getBites() {
-        List<Bett> bites = new ArrayList<>();
+    public List<Bite> getBites() {
+        List<Bite> bites = new ArrayList<>();
         BiteCursorWrapper cursor = queryBites(null, null); // TODO
 
         try {
@@ -74,7 +69,7 @@ public class BettLab {
         return bites;
     }
 
-    public Bett getBett(UUID id) {
+    public Bite getBite(UUID id) {
         BiteCursorWrapper cursor = queryBites(
                 BiteTable.Cols.UUID + " = ?"
                 , new String[] { id.toString() });
@@ -86,16 +81,14 @@ public class BettLab {
         } finally {
             cursor.close();
         }
-
     }
 
     // Make a Bite into a ContentValues to be stored in SQLite.
-    private static ContentValues getContentValues(Bett bite) {
+    private static ContentValues getContentValues(Bite bite) {
         ContentValues values = new ContentValues();
-        values.put(BiteTable.Cols.UUID, bite.getmId().toString());
-        values.put(BiteTable.Cols.PLACEMENT, bite.getmPlacering());
-        //values.put(BiteTable.Cols.CALENDAR, bite.getmDatum().toString()); //TODO
-        values.put(BiteTable.Cols.CALENDAR, bite.getmDatum().getTimeInMillis());
+        values.put(BiteTable.Cols.UUID, bite.getId().toString());
+        values.put(BiteTable.Cols.PLACEMENT, bite.getPlacement());
+        values.put(BiteTable.Cols.CALENDAR, bite.getCalendar().getTimeInMillis());
 
         return values;
     }
@@ -113,5 +106,4 @@ public class BettLab {
         );
         return new BiteCursorWrapper(cursor);
     }
-
 }

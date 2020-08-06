@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class DatePickerFragment extends DialogFragment {
 
@@ -67,18 +66,18 @@ public class DatePickerFragment extends DialogFragment {
                         c.set(mDatePicker.getYear()
                                 , mDatePicker.getMonth()
                                 , mDatePicker.getDayOfMonth());
-                        sendResult(Activity.RESULT_OK, c);
+                        sendResult(c);
                     }
                 })
                 .create();
     }
 
     // The Fragment passes the chosen Calendar back to the host as an extra.
-    private void sendResult(int resultCode, Calendar c) {
+    private void sendResult(Calendar c) {
         if (getTargetFragment() == null) return;
 
         Intent intent = new Intent();
         intent.putExtra(EXTRA_CALENDAR, c);
-        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
     }
 }
