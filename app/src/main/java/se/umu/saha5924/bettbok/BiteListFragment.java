@@ -79,7 +79,8 @@ public class BiteListFragment extends Fragment {
             case R.id.new_bite:
                 Bite bite = new Bite();
                 BiteLab.get(getActivity()).addBite(bite);
-                Intent intent = BitePagerActivity.newIntent(getActivity(), bite.getId());
+                //Intent intent = BitePagerActivity.newIntent(getActivity(), bite.getId());
+                Intent intent = BiteActivity.newIntent(getActivity(), bite.getId());
                 startActivity(intent);
                 return true;
             default:
@@ -139,7 +140,10 @@ public class BiteListFragment extends Fragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = BitePagerActivity.newIntent(getActivity(),
+                        /*Intent intent = BitePagerActivity.newIntent(getActivity(),
+                                mBite.get(getAbsoluteAdapterPosition()).getId());
+                        */
+                        Intent intent = BiteActivity.newIntent(getActivity(),
                                 mBite.get(getAbsoluteAdapterPosition()).getId());
                         startActivity(intent);
                     }
