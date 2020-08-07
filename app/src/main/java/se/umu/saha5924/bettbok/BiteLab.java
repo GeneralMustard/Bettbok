@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -74,6 +76,7 @@ public class BiteLab {
         } finally {
             cursor.close();
         }
+        sortBites(bites);
         return bites;
     }
 
@@ -88,6 +91,19 @@ public class BiteLab {
             return cursor.getBite();
         } finally {
             cursor.close();
+        }
+    }
+
+    private void sortBites(List<Bite> bites) {
+        Collections.sort(bites, new SortByTime());
+    }
+
+    private class SortByTime implements Comparator<Bite> {
+        @Override
+        public int compare(Bite b1, Bite b2) {
+             if (b1.getCalendar().getTimeInMillis() > b2.getCalendar().getTimeInMillis())
+                 return -1;
+             return 1;
         }
     }
 
