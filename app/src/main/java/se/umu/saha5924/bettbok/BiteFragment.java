@@ -15,7 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
 import java.util.UUID;
@@ -28,6 +29,7 @@ public class BiteFragment extends Fragment {
     private UUID mBiteId;
     private TextView mPlacementTextView;
     private TextView mDateTextView;
+    private FloatingActionButton mEditFab;
 
     /**
      * newInstance will create and return a new instance of BiteFragment containing a UUID of a Bite.
@@ -63,6 +65,16 @@ public class BiteFragment extends Fragment {
 
         mDateTextView = v.findViewById(R.id.date_text_view);
         //mDateTextView.setText(getDate());
+
+        mEditFab = v.findViewById(R.id.fab_edit_bite);
+        mEditFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = BiteEditActivity.newIntent(getActivity(), mBiteId);
+                startActivity(intent);
+            }
+        });
+
         updateUI();
         return v;
     }
@@ -83,9 +95,8 @@ public class BiteFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             // The user has requested a new Bite.
-            case R.id.edit_bite:
-                Intent intent = BiteEditActivity.newIntent(getActivity(), mBiteId);
-                startActivity(intent);
+            case R.id.delete_bite:
+                // delete
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
