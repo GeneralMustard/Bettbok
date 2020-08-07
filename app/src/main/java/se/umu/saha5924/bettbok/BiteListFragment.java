@@ -153,9 +153,6 @@ public class BiteListFragment extends Fragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        /*Intent intent = BitePagerActivity.newIntent(getActivity(),
-                                mBite.get(getAbsoluteAdapterPosition()).getId());
-                        */
                         Intent intent = BiteActivity.newIntent(getActivity(),
                                 mBite.get(getAbsoluteAdapterPosition()).getId());
                         startActivity(intent);

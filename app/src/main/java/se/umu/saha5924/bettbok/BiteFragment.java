@@ -96,7 +96,9 @@ public class BiteFragment extends Fragment {
         switch (item.getItemId()) {
             // The user has requested a new Bite.
             case R.id.delete_bite:
-                // delete
+                Bite bite = BiteLab.get(getActivity()).getBite(mBiteId);
+                BiteLab.get(getActivity()).deleteBite(bite);
+                getActivity().finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

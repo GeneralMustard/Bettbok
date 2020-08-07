@@ -48,9 +48,17 @@ public class BiteLab {
 
         // The UUID is used to find and update the row in the database,
         // that contains the Bite with the corresponding UUID.
-        mDatabase.update(BiteTable.NAME, values,
-                BiteTable.Cols.UUID + " = ?",
-                new String[] { uuidString });
+        mDatabase.update(BiteTable.NAME
+                , values
+                ,BiteTable.Cols.UUID + " = ?"
+                , new String[] { uuidString });
+    }
+
+    public void deleteBite(Bite b) {
+        String uuidString = b.getId().toString();
+        mDatabase.delete(BiteTable.NAME
+                , BiteTable.Cols.UUID + " = ?"
+                , new String[] {uuidString});
     }
 
     public List<Bite> getBites() {
