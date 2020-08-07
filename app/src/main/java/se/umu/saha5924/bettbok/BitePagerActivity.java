@@ -60,7 +60,7 @@ public class BitePagerActivity extends AppCompatActivity {
         @Override
         public Fragment createFragment(int position) {
             Bite bite = mBite.get(position);
-            return BiteFragment.newInstance(bite.getId());
+            return BiteEditFragment.newInstance(bite.getId());
         }
 
         @Override

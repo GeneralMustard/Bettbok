@@ -3,5 +3,6 @@
 
     <string name="bite_placement">Vart på kroppen satt bettet?</string>
     <string name="date_picker_title">Datum för bettet:</string>
-    <string name="new_bite">Nytt bite</string>
+    <string name="new_bite">Nytt bett</string>
+    <string name="edit_bite">Ändra bett</string>
 </resources>

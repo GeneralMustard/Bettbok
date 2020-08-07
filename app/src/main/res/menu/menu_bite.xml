@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<item
+    android:id="@+id/edit_bite"
+    android:icon="@android:drawable/ic_menu_edit"
+    android:title="@string/edit_bite"
+    app:showAsAction="ifRoom|withText"/>
+
+</menu>

@@ -12,16 +12,22 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.util.UUID;
 
-public class BiteActivity extends AppCompatActivity {
+public class BiteActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_BITE_ID = "bite_id";
+
+    @Override
+    protected Fragment createFragment() {
+        UUID biteId = (UUID) getIntent().getSerializableExtra(EXTRA_BITE_ID);
+        return BiteFragment.newInstance(biteId);
+    }
 
     public static Intent newIntent(Context packageContext, UUID id) {
         Intent intent = new Intent(packageContext, BiteActivity.class);
         intent.putExtra(EXTRA_BITE_ID, id);
         return intent;
     }
-
+/*
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,5 +40,5 @@ public class BiteActivity extends AppCompatActivity {
         Fragment f = BiteFragment.newInstance(biteId);
         ft.add(R.id.fragment_container, f);
         ft.commit();
-    }
+    }*/
 }
