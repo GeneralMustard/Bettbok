@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class BiteListFragment extends Fragment {
 
     private RecyclerView mBiteRecyclerView;
     private BiteAdapter mBiteAdapter;
+    private FloatingActionButton mAddFab;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,8 +41,19 @@ public class BiteListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_bett_list, container, false);
 
-        mBiteRecyclerView = v.findViewById(R.id.bett_recycler_view);
+        mBiteRecyclerView = v.findViewById(R.id.bite_recycler_view);
         mBiteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mAddFab = v.findViewById(R.id.fab_add_bite);
+        mAddFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bite bite = new Bite();
+                BiteLab.get(getActivity()).addBite(bite);
+                Intent intent = BiteEditActivity.newIntent(getActivity(), bite.getId());
+                startActivity(intent);
+            }
+        });
 
         updateUI();
         return v;
@@ -76,13 +90,12 @@ public class BiteListFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             // The user has requested a new Bite.
-            case R.id.new_bite:
+            /*case R.id.new_bite:
                 Bite bite = new Bite();
                 BiteLab.get(getActivity()).addBite(bite);
-                //Intent intent = BitePagerActivity.newIntent(getActivity(), bite.getId());
-                Intent intent = BiteActivity.newIntent(getActivity(), bite.getId());
+                Intent intent = BiteEditActivity.newIntent(getActivity(), bite.getId());
                 startActivity(intent);
-                return true;
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
