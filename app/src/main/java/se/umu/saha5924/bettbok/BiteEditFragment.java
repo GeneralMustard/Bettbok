@@ -51,14 +51,22 @@ public class BiteEditFragment extends Fragment {
         return fragment;
     }
 
+    public static BiteEditFragment newInstance() {
+        return new BiteEditFragment();
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        // Retrieve the UUID stored as an argument and find the Bite connected to it.
-        UUID bettId = (UUID) getArguments().getSerializable(ARG_BETT_ID);
-        mBite = BiteLab.get(getActivity()).getBite(bettId);
+        if (getArguments().getSerializable(ARG_BETT_ID) != null) {
+            // Retrieve the UUID stored as an argument and find the Bite connected to it.
+            UUID bettId = (UUID) getArguments().getSerializable(ARG_BETT_ID);
+            mBite = BiteLab.get(getActivity()).getBite(bettId);
+        } else {
+            mBite = new Bite();
+        }
     }
 
     @Nullable
@@ -66,7 +74,7 @@ public class BiteEditFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_edit_bite, container, false);
 
-        mPlaceringField = v.findViewById(R.id.bite_placement_edit_text);
+        mPlaceringField = v.findViewById(R.id.placement_edit_text);
         mPlaceringField.setText(mBite.getPlacement());
         mPlaceringField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -85,7 +93,7 @@ public class BiteEditFragment extends Fragment {
             }
         });
 
-        mDatumButton = v.findViewById(R.id.bite_date_button);
+        mDatumButton = v.findViewById(R.id.date_button);
         updateDate();
         mDatumButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +127,11 @@ public class BiteEditFragment extends Fragment {
             // Request to save the changes.
             case R.id.save_bite:
                 // Update BiteLab's Bite when Bite is saved.
-                BiteLab.get(getActivity()).updateBite(mBite);
+                if (BiteLab.get(getActivity()).biteExist(mBite.getId())) {
+                    BiteLab.get(getActivity()).updateBite(mBite);
+                } else {
+                    BiteLab.get(getActivity()).addBite(mBite);
+                }
                 getActivity().finish();
                 return true;
             default:

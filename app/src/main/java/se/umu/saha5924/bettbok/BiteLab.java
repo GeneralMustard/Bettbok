@@ -94,6 +94,18 @@ public class BiteLab {
         }
     }
 
+    public boolean biteExist(UUID id) {
+        BiteCursorWrapper cursor = queryBites(
+                BiteTable.Cols.UUID + " = ?"
+                , new String[] { id.toString() });
+
+        try {
+            return cursor.getCount() != 0;
+        } finally {
+            cursor.close();
+        }
+    }
+
     private void sortBites(List<Bite> bites) {
         Collections.sort(bites, new SortByTime());
     }

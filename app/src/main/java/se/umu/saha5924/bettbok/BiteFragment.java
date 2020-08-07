@@ -61,10 +61,7 @@ public class BiteFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_bite, container, false);
 
         mPlacementTextView = v.findViewById(R.id.placement_text_view);
-        //mPlacementTextView.setText(mBite.getPlacement());
-
         mDateTextView = v.findViewById(R.id.date_text_view);
-        //mDateTextView.setText(getDate());
 
         mEditFab = v.findViewById(R.id.fab_edit_bite);
         mEditFab.setOnClickListener(new View.OnClickListener() {
@@ -108,13 +105,20 @@ public class BiteFragment extends Fragment {
     private String getDate() {
         Bite bite = BiteLab.get(getActivity()).getBite(mBiteId);
         Calendar c = bite.getCalendar();
-        return "Den " + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.MONTH)
-                + " -" + c.get(Calendar.YEAR); // TODO
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH)+1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        return day + "/" + month + " -" + year; // TODO
     }
 
     private void updateUI() {
         Bite bite = BiteLab.get(getActivity()).getBite(mBiteId);
         mPlacementTextView.setText(bite.getPlacement());
-        mDateTextView.setText(getDate());
+
+        Calendar c = bite.getCalendar();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH)+1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        mDateTextView.setText(getString(R.string.show_date, day, month, year));
     }
 }

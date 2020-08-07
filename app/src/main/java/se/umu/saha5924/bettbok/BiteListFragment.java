@@ -48,9 +48,9 @@ public class BiteListFragment extends Fragment {
         mAddFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bite bite = new Bite();
-                BiteLab.get(getActivity()).addBite(bite);
-                Intent intent = BiteEditActivity.newIntent(getActivity(), bite.getId());
+                //Bite bite = new Bite();
+                //BiteLab.get(getActivity()).addBite(bite);
+                Intent intent = BiteEditActivity.newIntent(getActivity());
                 startActivity(intent);
             }
         });
@@ -112,7 +112,8 @@ public class BiteListFragment extends Fragment {
         @NonNull
         @Override
         public BiteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_bite, parent, false);
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.list_item_bite, parent, false);
             return new BiteViewHolder(v);
         }
 
@@ -122,9 +123,10 @@ public class BiteListFragment extends Fragment {
             holder.mPlacementTextView.setText(currentBite.getPlacement());
 
             Calendar c = currentBite.getCalendar();
-            String date = "Den " + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.MONTH) +
-                    " -" + c.get(Calendar.YEAR); //TODO
-            holder.mCalendarTextView.setText(date);
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH)+1;
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            holder.mCalendarTextView.setText(getString(R.string.show_date, day, month, year));
         }
 
         @Override

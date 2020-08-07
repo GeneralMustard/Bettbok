@@ -13,14 +13,22 @@ public class BiteEditActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        UUID biteId = (UUID) getIntent().getSerializableExtra(EXTRA_BITE_ID);
-        return BiteEditFragment.newInstance(biteId);
+        UUID biteId;
+        if (getIntent() != null) {
+            biteId = (UUID) getIntent().getSerializableExtra(EXTRA_BITE_ID);
+            return BiteEditFragment.newInstance(biteId);
+        }
+        return BiteEditFragment.newInstance();
     }
 
     public static Intent newIntent(Context packageContext, UUID id) {
         Intent intent = new Intent(packageContext, BiteEditActivity.class);
         intent.putExtra(EXTRA_BITE_ID, id);
         return intent;
+    }
+
+    public static Intent newIntent(Context packageContext) {
+        return new Intent(packageContext, BiteEditActivity.class);
     }
 
 }
