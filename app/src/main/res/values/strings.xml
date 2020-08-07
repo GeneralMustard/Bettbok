@@ -6,4 +6,5 @@
     <string name="new_bite">Lägg till</string>
     <string name="edit_bite">Ändra</string>
     <string name="delete_bite">Ta bort</string>
+    <string name="save_bite">Spara</string>
 </resources>

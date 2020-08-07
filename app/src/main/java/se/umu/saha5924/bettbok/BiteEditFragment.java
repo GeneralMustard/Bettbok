@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -51,17 +54,11 @@ public class BiteEditFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         // Retrieve the UUID stored as an argument and find the Bite connected to it.
         UUID bettId = (UUID) getArguments().getSerializable(ARG_BETT_ID);
         mBite = BiteLab.get(getActivity()).getBite(bettId);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        // Update BiteLab's Bite when BiteFragment is done.
-        BiteLab.get(getActivity()).updateBite(mBite);
     }
 
     @Nullable
@@ -101,6 +98,33 @@ public class BiteEditFragment extends Fragment {
             }
         });
         return v;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Update BiteLab's Bite when BiteFragment is done.
+        //BiteLab.get(getActivity()).updateBite(mBite);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_edit_bite, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            // Request to save the changes.
+            case R.id.save_bite:
+                // Update BiteLab's Bite when Bite is saved.
+                BiteLab.get(getActivity()).updateBite(mBite);
+                getActivity().finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
