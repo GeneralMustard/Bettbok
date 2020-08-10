@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,6 +20,7 @@ public class BiteLab {
 
     private SQLiteDatabase mDatabase;
     private static BiteLab biteLab;
+    private Context mContext;
 
     public static BiteLab get(Context context) {
         if (biteLab == null) biteLab = new BiteLab(context);
@@ -26,11 +28,8 @@ public class BiteLab {
     }
 
     private BiteLab(Context context) {
-        mDatabase = new BiteBaseHelper(context.getApplicationContext())
-                .getWritableDatabase();
-
-
-
+        mContext = context.getApplicationContext();
+        mDatabase = new BiteBaseHelper(mContext).getWritableDatabase();
         /*
         mBett = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
@@ -104,6 +103,11 @@ public class BiteLab {
         } finally {
             cursor.close();
         }
+    }
+
+    public File getImageFile(Bite bite) {
+        File filesDir = mContext.getFilesDir();
+        return new File(filesDir, bite.getImageFilename());
     }
 
     private void sortBites(List<Bite> bites) {
