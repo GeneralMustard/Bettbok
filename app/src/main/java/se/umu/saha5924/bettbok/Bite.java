@@ -20,8 +20,8 @@ public class Bite {
         mCalendar.setTime(new Date());
     }
 
-    public String getImageFilename() {
-        return "IMG_" + getId().toString() + ".jpg";
+    public String getImageFilename(int i) {
+        return "IMG_" + getId().toString() + i + ".jpg";
     }
 
     public UUID getId() {

@@ -41,13 +41,19 @@ public class BiteEditFragment extends Fragment {
     private static final String ARG_BITE_ID = "bite_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_CALENDAR = 0;
-    private static final int REQUEST_PHOTO = 1;
+    private static final int REQUEST_FIRST_PHOTO = 1;
+    private static final int REQUEST_SECOND_PHOTO = 2;
+    private static final int REQUEST_THIRD_PHOTO = 3;
 
     private Bite mBite;
     private EditText mPlacementEditText;
     private Button mDateButton;
-    private ImageButton mZeroDaysImageButton;
-    private File mImageFile;
+    private ImageButton mFirstImageButton;
+    private ImageButton mSecondImageButton;
+    private ImageButton mThirdImageButton;
+    private File mFirstImageFile;
+    private File mSecondImageFile;
+    private File mThirdImageFile;
 
     /**
      * newInstance will create and return a new instance of BiteFragment containing a UUID of a Bite.
@@ -79,7 +85,9 @@ public class BiteEditFragment extends Fragment {
         } else {
             mBite = new Bite();
         }
-        mImageFile = BiteLab.get(getActivity()).getImageFile(mBite);
+        mFirstImageFile = BiteLab.get(getActivity()).getImageFile(mBite, 1);
+        mSecondImageFile = BiteLab.get(getActivity()).getImageFile(mBite, 2);
+        mThirdImageFile = BiteLab.get(getActivity()).getImageFile(mBite, 3);
     }
 
     @Nullable
@@ -119,40 +127,60 @@ public class BiteEditFragment extends Fragment {
             }
         });
 
-        mZeroDaysImageButton = v.findViewById(R.id.zero_days_image_button);
+        mFirstImageButton = v.findViewById(R.id.first_image_button);
 
-        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         // User is not able to take photo if the device does not have a camera.
-        boolean canTakePhoto = mImageFile != null &&
+        /*boolean canTakePhoto = mFirstImageFile != null &&
                 captureImage.resolveActivity(getActivity().getPackageManager()) != null;
-        mZeroDaysImageButton.setEnabled(canTakePhoto);
+        mFirstImageButton.setEnabled(canTakePhoto);*/
 
-        mZeroDaysImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mFirstImageButton.setOnClickListener(new PhotoButton(mFirstImageFile, REQUEST_FIRST_PHOTO));
 
-                // Translate the local filepath for camera.
-                Uri uri = FileProvider.getUriForFile(getActivity()
-                        , getActivity().getPackageName() + ".fileprovider"
-                        , mImageFile);
+        mSecondImageButton = v.findViewById(R.id.second_image_button);
+        mSecondImageButton.setOnClickListener(new PhotoButton(mSecondImageFile, REQUEST_SECOND_PHOTO));
 
-                // Send the filepath for camera to use.
-                captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        mThirdImageButton = v.findViewById(R.id.third_image_button);
+        mThirdImageButton.setOnClickListener(new PhotoButton(mThirdImageFile, REQUEST_THIRD_PHOTO));
 
-                List<ResolveInfo> cameraActivities = getActivity().getPackageManager()
-                        .queryIntentActivities(captureImage, PackageManager.MATCH_DEFAULT_ONLY);
-
-                // Grant permission to write to specific uri.
-                for (ResolveInfo activity : cameraActivities)
-                    getActivity().grantUriPermission(activity.activityInfo.packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-
-                startActivityForResult(captureImage, REQUEST_PHOTO);
-            }
-        });
         updateImageButton();
 
         return v;
+    }
+
+    private class PhotoButton implements View.OnClickListener {
+
+        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        private File file;
+        private int request;
+
+        public PhotoButton(File file, int request) {
+            this.file = file;
+            this.request = request;
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            // Translate the local filepath for camera.
+            Uri uri = FileProvider.getUriForFile(getActivity()
+                    , getActivity().getPackageName() + ".fileprovider"
+                    , file);
+
+            // Send the filepath for camera to use.
+            captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+
+            List<ResolveInfo> cameraActivities = getActivity().getPackageManager()
+                    .queryIntentActivities(captureImage, PackageManager.MATCH_DEFAULT_ONLY);
+
+            // Grant permission to write to specific uri.
+            for (ResolveInfo activity : cameraActivities)
+                getActivity().grantUriPermission(activity.activityInfo.packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+            startActivityForResult(captureImage, request);
+        }
     }
 
     @Override
@@ -163,11 +191,25 @@ public class BiteEditFragment extends Fragment {
     }
 
     private void updateImageButton() {
-        if (mImageFile == null || !mImageFile.exists()) {
-            mZeroDaysImageButton.setImageDrawable(null);
+        if (mFirstImageFile == null || !mFirstImageFile.exists()) {
+            mFirstImageButton.setImageDrawable(null);
         } else {
-            Bitmap bm = ImageScaler.getScaledBitmap(mImageFile.getPath(), getActivity());
-            mZeroDaysImageButton.setImageBitmap(bm);
+            Bitmap bm = ImageScaler.getScaledBitmap(mFirstImageFile.getPath(), getActivity());
+            mFirstImageButton.setImageBitmap(bm);
+        }
+
+        if (mSecondImageFile == null || !mSecondImageFile.exists()) {
+            mSecondImageButton.setImageDrawable(null);
+        } else {
+            Bitmap bm = ImageScaler.getScaledBitmap(mSecondImageFile.getPath(), getActivity());
+            mSecondImageButton.setImageBitmap(bm);
+        }
+
+        if (mThirdImageFile == null || !mThirdImageFile.exists()) {
+            mThirdImageButton.setImageDrawable(null);
+        } else {
+            Bitmap bm = ImageScaler.getScaledBitmap(mThirdImageFile.getPath(), getActivity());
+            mThirdImageButton.setImageBitmap(bm);
         }
     }
 
@@ -204,13 +246,23 @@ public class BiteEditFragment extends Fragment {
             Calendar c = (Calendar) data.getSerializableExtra(DatePickerFragment.EXTRA_CALENDAR);
             mBite.setCalendar(c);
             updateDate();
-        } else if (requestCode == REQUEST_PHOTO) {
+        } else if (requestCode == REQUEST_FIRST_PHOTO) {
             Uri uri = FileProvider.getUriForFile(getActivity()
                     , getActivity().getPackageName() + ".fileprovider"
-                    , mImageFile);
-
+                    , mFirstImageFile);
             getActivity().revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-
+            updateImageButton();
+        } else if (requestCode == REQUEST_SECOND_PHOTO) {
+            Uri uri = FileProvider.getUriForFile(getActivity()
+                    , getActivity().getPackageName() + ".fileprovider"
+                    , mSecondImageFile);
+            getActivity().revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            updateImageButton();
+        } else if (requestCode == REQUEST_THIRD_PHOTO) {
+            Uri uri = FileProvider.getUriForFile(getActivity()
+                    , getActivity().getPackageName() + ".fileprovider"
+                    , mThirdImageFile);
+            getActivity().revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             updateImageButton();
         }
     }

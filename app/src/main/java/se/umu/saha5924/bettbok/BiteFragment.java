@@ -30,8 +30,12 @@ public class BiteFragment extends Fragment {
     private TextView mPlacementTextView;
     private TextView mDateTextView;
     private FloatingActionButton mEditFab;
-    private ImageView mZeroDaysImageView;
-    private File mImageFile;
+    private ImageView mFirstImageView;
+    private ImageView mSecondImageView;
+    private ImageView mThirdImageView;
+    private File mFirstImageFile;
+    private File mSecondImageFile;
+    private File mThirdImageFile;
 
 
     /**
@@ -56,7 +60,9 @@ public class BiteFragment extends Fragment {
         // Retrieve the UUID stored as an argument and find the Bite connected to it.
         mBiteId = (UUID) getArguments().getSerializable(ARG_BITE_ID);
         Bite b = BiteLab.get(getActivity()).getBite(mBiteId);
-        mImageFile = BiteLab.get(getActivity()).getImageFile(b);
+        mFirstImageFile = BiteLab.get(getActivity()).getImageFile(b, 1);
+        mSecondImageFile = BiteLab.get(getActivity()).getImageFile(b, 2);
+        mThirdImageFile = BiteLab.get(getActivity()).getImageFile(b, 3);
     }
 
     @Nullable
@@ -76,7 +82,9 @@ public class BiteFragment extends Fragment {
             }
         });
 
-        mZeroDaysImageView = v.findViewById(R.id.zero_days_image_view);
+        mFirstImageView = v.findViewById(R.id.first_image_view);
+        mSecondImageView = v.findViewById(R.id.second_image_view);
+        mThirdImageView = v.findViewById(R.id.third_image_view);
         updateImageView();
 
         updateUI();
@@ -91,11 +99,25 @@ public class BiteFragment extends Fragment {
     }
 
     private void updateImageView() {
-        if (mImageFile == null || !mImageFile.exists()) {
-            mZeroDaysImageView.setImageDrawable(null);
+        if (mFirstImageFile == null || !mFirstImageFile.exists()) {
+            mFirstImageView.setImageDrawable(null);
         } else {
-            Bitmap bm = ImageScaler.getScaledBitmap(mImageFile.getPath(), getActivity());
-            mZeroDaysImageView.setImageBitmap(bm);
+            Bitmap bm = ImageScaler.getScaledBitmap(mFirstImageFile.getPath(), getActivity());
+            mFirstImageView.setImageBitmap(bm);
+        }
+
+        if (mSecondImageFile == null || !mSecondImageFile.exists()) {
+            mSecondImageView.setImageDrawable(null);
+        } else {
+            Bitmap bm = ImageScaler.getScaledBitmap(mSecondImageFile.getPath(), getActivity());
+            mSecondImageView.setImageBitmap(bm);
+        }
+
+        if (mThirdImageFile == null || !mThirdImageFile.exists()) {
+            mThirdImageView.setImageDrawable(null);
+        } else {
+            Bitmap bm = ImageScaler.getScaledBitmap(mThirdImageFile.getPath(), getActivity());
+            mThirdImageView.setImageBitmap(bm);
         }
     }
 

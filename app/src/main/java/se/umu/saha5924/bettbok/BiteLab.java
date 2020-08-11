@@ -105,9 +105,9 @@ public class BiteLab {
         }
     }
 
-    public File getImageFile(Bite bite) {
+    public File getImageFile(Bite bite, int i) {
         File filesDir = mContext.getFilesDir();
-        return new File(filesDir, bite.getImageFilename());
+        return new File(filesDir, bite.getImageFilename(i));
     }
 
     private void sortBites(List<Bite> bites) {
