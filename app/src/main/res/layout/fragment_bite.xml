@@ -34,8 +34,8 @@
             android:layout_height="wrap_content"
             android:text="@string/first_photo"/>
 
-        <ImageView
-            android:id="@+id/first_image_view"
+        <ImageButton
+            android:id="@+id/first_image_button"
             android:layout_width="60dp"
             android:layout_height="80dp"
             android:scaleType="centerInside"
@@ -60,8 +60,8 @@
             android:layout_height="wrap_content"
             android:text="@string/second_photo"/>
 
-        <ImageView
-            android:id="@+id/second_image_view"
+        <ImageButton
+            android:id="@+id/second_image_button"
             android:layout_width="60dp"
             android:layout_height="80dp"
             android:scaleType="centerInside"
@@ -84,8 +84,8 @@
             android:layout_height="wrap_content"
             android:text="@string/third_photo"/>
 
-        <ImageView
-            android:id="@+id/third_image_view"
+        <ImageButton
+            android:id="@+id/third_image_button"
             android:layout_width="60dp"
             android:layout_height="80dp"
             android:scaleType="centerInside"

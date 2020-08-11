@@ -2,12 +2,7 @@ package se.umu.saha5924.bettbok;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,21 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import java.io.File;
 import java.util.Calendar;
-import java.util.List;
 import java.util.UUID;
 
 /**
- * BettFragment is responsible for the Fragment connected to a Bett.
+ * BiteEditFragment is responsible for the Fragment connected to a Bite.
  *
  */
 
@@ -48,12 +39,10 @@ public class BiteEditFragment extends Fragment {
     private Bite mBite;
     private EditText mPlacementEditText;
     private Button mDateButton;
-    private ImageButton mFirstImageButton;
-    private ImageButton mSecondImageButton;
-    private ImageButton mThirdImageButton;
-    private File mFirstImageFile;
-    private File mSecondImageFile;
-    private File mThirdImageFile;
+
+    private Photo mFirstPhoto;
+    private Photo mSecondPhoto;
+    private Photo mThirdPhoto;
 
     /**
      * newInstance will create and return a new instance of BiteFragment containing a UUID of a Bite.
@@ -85,9 +74,6 @@ public class BiteEditFragment extends Fragment {
         } else {
             mBite = new Bite();
         }
-        mFirstImageFile = BiteLab.get(getActivity()).getImageFile(mBite, 1);
-        mSecondImageFile = BiteLab.get(getActivity()).getImageFile(mBite, 2);
-        mThirdImageFile = BiteLab.get(getActivity()).getImageFile(mBite, 3);
     }
 
     @Nullable
@@ -127,61 +113,14 @@ public class BiteEditFragment extends Fragment {
             }
         });
 
-        mFirstImageButton = v.findViewById(R.id.first_image_button);
-
-        //final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        // User is not able to take photo if the device does not have a camera.
-        /*boolean canTakePhoto = mFirstImageFile != null &&
-                captureImage.resolveActivity(getActivity().getPackageManager()) != null;
-        mFirstImageButton.setEnabled(canTakePhoto);*/
-
-        mFirstImageButton.setOnClickListener(new PhotoButton(mFirstImageFile, REQUEST_FIRST_PHOTO));
-        updateImageButton(mFirstImageFile, mFirstImageButton);
-
-        mSecondImageButton = v.findViewById(R.id.second_image_button);
-        mSecondImageButton.setOnClickListener(new PhotoButton(mSecondImageFile, REQUEST_SECOND_PHOTO));
-        updateImageButton(mSecondImageFile, mSecondImageButton);
-
-        mThirdImageButton = v.findViewById(R.id.third_image_button);
-        mThirdImageButton.setOnClickListener(new PhotoButton(mThirdImageFile, REQUEST_THIRD_PHOTO));
-        updateImageButton(mThirdImageFile, mThirdImageButton);
+        mFirstPhoto = new Photo
+                (getActivity(), v, R.id.first_image_button, mBite, REQUEST_FIRST_PHOTO);
+        mSecondPhoto = new Photo
+                (getActivity(), v, R.id.second_image_button, mBite, REQUEST_SECOND_PHOTO);
+        mThirdPhoto = new Photo
+                (getActivity(), v, R.id.third_image_button, mBite, REQUEST_THIRD_PHOTO);
 
         return v;
-    }
-
-    private class PhotoButton implements View.OnClickListener {
-
-        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        private File file;
-        private int request;
-
-        public PhotoButton(File file, int request) {
-            this.file = file;
-            this.request = request;
-        }
-
-        @Override
-        public void onClick(View v) {
-
-            // Translate the local filepath for camera.
-            Uri uri = FileProvider.getUriForFile(getActivity()
-                    , getActivity().getPackageName() + ".fileprovider"
-                    , file);
-
-            // Send the filepath for camera to use.
-            captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-
-            List<ResolveInfo> cameraActivities = getActivity().getPackageManager()
-                    .queryIntentActivities(captureImage, PackageManager.MATCH_DEFAULT_ONLY);
-
-            // Grant permission to write to specific uri.
-            for (ResolveInfo activity : cameraActivities)
-                getActivity().grantUriPermission(activity.activityInfo.packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-
-            startActivityForResult(captureImage, request);
-        }
     }
 
     @Override
@@ -191,13 +130,12 @@ public class BiteEditFragment extends Fragment {
         //BiteLab.get(getActivity()).updateBite(mBite);
     }
 
-    private void updateImageButton(File file, ImageButton button) {
-        if (file == null || !file.exists()) {
-            button.setImageDrawable(null);
-        } else {
-            Bitmap bm = ImageScaler.getScaledBitmap(file.getPath(), getActivity());
-            button.setImageBitmap(bm);
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mFirstPhoto.updateImageButton();
+        mSecondPhoto.updateImageButton();
+        mThirdPhoto.updateImageButton();
     }
 
     @Override
@@ -234,25 +172,19 @@ public class BiteEditFragment extends Fragment {
             mBite.setCalendar(c);
             updateDate();
         } else if (requestCode == REQUEST_FIRST_PHOTO) {
-            handlePhotoRequest(mFirstImageFile, mFirstImageButton);
+            mFirstPhoto.handlePhotoRequest();
         } else if (requestCode == REQUEST_SECOND_PHOTO) {
-            handlePhotoRequest(mSecondImageFile, mSecondImageButton);
+            mSecondPhoto.handlePhotoRequest();
         } else if (requestCode == REQUEST_THIRD_PHOTO) {
-            handlePhotoRequest(mThirdImageFile, mThirdImageButton);
+            mThirdPhoto.handlePhotoRequest();
         }
-    }
-
-    private void handlePhotoRequest(File file, ImageButton button) {
-        Uri uri = FileProvider.getUriForFile(getActivity()
-                , getActivity().getPackageName() + ".fileprovider"
-                , file);
-        getActivity().revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        updateImageButton(file, button);
     }
 
     private void updateDate() {
         Calendar c = mBite.getCalendar();
-        mDateButton.setText("Den " + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.MONTH)
-                + " -" + c.get(Calendar.YEAR)); // TODO
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH)+1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        mDateButton.setText(getString(R.string.show_date, day, month, year));
     }
 }

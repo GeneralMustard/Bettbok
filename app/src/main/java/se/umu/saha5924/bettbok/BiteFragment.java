@@ -1,7 +1,6 @@
 package se.umu.saha5924.bettbok;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,8 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +16,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -31,12 +27,10 @@ public class BiteFragment extends Fragment {
     private TextView mPlacementTextView;
     private TextView mDateTextView;
     private FloatingActionButton mEditFab;
-    private ImageView mFirstImageView;
-    private ImageView mSecondImageView;
-    private ImageView mThirdImageView;
-    private File mFirstImageFile;
-    private File mSecondImageFile;
-    private File mThirdImageFile;
+
+    private Photo mFirstPhoto;
+    private Photo mSecondPhoto;
+    private Photo mThirdPhoto;
 
 
     /**
@@ -58,12 +52,8 @@ public class BiteFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        // Retrieve the UUID stored as an argument and find the Bite connected to it.
+        // Retrieve the UUID of a Bite stored as an argument.
         mBiteId = (UUID) getArguments().getSerializable(ARG_BITE_ID);
-        Bite b = BiteLab.get(getActivity()).getBite(mBiteId);
-        mFirstImageFile = BiteLab.get(getActivity()).getImageFile(b, 1);
-        mSecondImageFile = BiteLab.get(getActivity()).getImageFile(b, 2);
-        mThirdImageFile = BiteLab.get(getActivity()).getImageFile(b, 3);
     }
 
     @Nullable
@@ -83,12 +73,17 @@ public class BiteFragment extends Fragment {
             }
         });
 
-        mFirstImageView = v.findViewById(R.id.first_image_view);
-        mSecondImageView = v.findViewById(R.id.second_image_view);
-        mThirdImageView = v.findViewById(R.id.third_image_view);
-        updateImageView(mFirstImageFile, mFirstImageView);
-        updateImageView(mSecondImageFile, mSecondImageView);
-        updateImageView(mThirdImageFile, mThirdImageView);
+        Bite b = BiteLab.get(getActivity()).getBite(mBiteId);
+        mFirstPhoto = new Photo
+                (getActivity(), v, R.id.first_image_button, b, 1);
+        mSecondPhoto = new Photo
+                (getActivity(), v, R.id.second_image_button, b, 2);
+        mThirdPhoto = new Photo
+                (getActivity(), v, R.id.third_image_button, b, 3);
+
+        mFirstPhoto.inactivateButton();
+        mSecondPhoto.inactivateButton();
+        mThirdPhoto.inactivateButton();
 
         updateUI();
         return v;
@@ -97,19 +92,12 @@ public class BiteFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
-        updateImageView(mFirstImageFile, mFirstImageView);
-        updateImageView(mSecondImageFile, mSecondImageView);
-        updateImageView(mThirdImageFile, mThirdImageView);
-    }
 
-    private void updateImageView(File file, ImageView view) {
-        if (file == null || !file.exists()) {
-            view.setImageDrawable(null);
-        } else {
-            Bitmap bm = ImageScaler.getScaledBitmap(file.getPath(), getActivity());
-            view.setImageBitmap(bm);
-        }
+        mFirstPhoto.updateImageButton();
+        mSecondPhoto.updateImageButton();
+        mThirdPhoto.updateImageButton();
+
+        updateUI();
     }
 
     @Override
