@@ -1,47 +1,35 @@
 package se.umu.saha5924.bettbok;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.util.Calendar;
-import java.util.List;
 import java.util.UUID;
 
 public class BiteFragment extends Fragment {
 
     private static final String ARG_BITE_ID = "bite_id";
-    private static final int REQUEST_PHOTO = 0;
 
     private UUID mBiteId;
     private TextView mPlacementTextView;
     private TextView mDateTextView;
     private FloatingActionButton mEditFab;
-    private ImageButton mZeroDaysImageButton;
     private ImageView mZeroDaysImageView;
     private File mImageFile;
 
@@ -88,39 +76,6 @@ public class BiteFragment extends Fragment {
             }
         });
 
-
-        mZeroDaysImageButton = v.findViewById(R.id.zero_days_image_button);
-
-        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        // User is not able to take photo if the device does not have a camera.
-        boolean canTakePhoto = mImageFile != null &&
-                captureImage.resolveActivity(getActivity().getPackageManager()) != null;
-        mZeroDaysImageButton.setEnabled(canTakePhoto);
-
-        mZeroDaysImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // Translate the local filepath for camera.
-                Uri uri = FileProvider.getUriForFile(getActivity()
-                        , getActivity().getPackageName() + ".fileprovider"
-                        , mImageFile);
-
-                // Send the filepath for camera to use.
-                captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-
-                List<ResolveInfo> cameraActivities = getActivity().getPackageManager()
-                        .queryIntentActivities(captureImage, PackageManager.MATCH_DEFAULT_ONLY);
-
-                // Grant permission to write to specific uri.
-                for (ResolveInfo activity : cameraActivities)
-                    getActivity().grantUriPermission(activity.activityInfo.packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-
-                startActivityForResult(captureImage, REQUEST_PHOTO);
-            }
-        });
-
         mZeroDaysImageView = v.findViewById(R.id.zero_days_image_view);
         updateImageView();
 
@@ -132,6 +87,7 @@ public class BiteFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateUI();
+        updateImageView();
     }
 
     private void updateImageView() {
@@ -140,21 +96,6 @@ public class BiteFragment extends Fragment {
         } else {
             Bitmap bm = ImageScaler.getScaledBitmap(mImageFile.getPath(), getActivity());
             mZeroDaysImageView.setImageBitmap(bm);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (resultCode != Activity.RESULT_OK) return;
-
-        if (requestCode == REQUEST_PHOTO) {
-            Uri uri = FileProvider.getUriForFile(getActivity()
-                    , getActivity().getPackageName() + ".fileprovider"
-                    , mImageFile);
-
-            getActivity().revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-
-            updateImageView();
         }
     }
 

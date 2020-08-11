@@ -30,14 +30,6 @@
         android:layout_below="@id/date_text_view"
         android:contentDescription="TODO" />
 
-    <ImageButton
-        android:id="@+id/zero_days_image_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_camera"
-        android:layout_below="@id/zero_days_image_view"
-        android:contentDescription="TODO" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_edit_bite"
         android:layout_width="wrap_content"

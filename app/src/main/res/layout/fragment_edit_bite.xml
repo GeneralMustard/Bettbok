@@ -16,4 +16,22 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/placement_edit_text"/>
 
+    <ImageView
+        android:id="@+id/zero_days_image_view"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:scaleType="centerInside"
+        android:cropToPadding="true"
+        android:background="@color/colorPrimaryDark"
+        android:layout_below="@id/date_button"
+        android:contentDescription="TODO" />
+
+    <ImageButton
+        android:id="@+id/zero_days_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_camera"
+        android:layout_below="@id/zero_days_image_view"
+        android:contentDescription="TODO" />
+
 </RelativeLayout>
