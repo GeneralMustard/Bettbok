@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,7 +47,6 @@ public class BiteEditFragment extends Fragment {
     private EditText mPlacementEditText;
     private Button mDateButton;
     private ImageButton mZeroDaysImageButton;
-    private ImageView mZeroDaysImageView;
     private File mImageFile;
 
     /**
@@ -76,8 +74,8 @@ public class BiteEditFragment extends Fragment {
 
         if (getArguments().getSerializable(ARG_BITE_ID) != null) {
             // Retrieve the UUID stored as an argument and find the Bite connected to it.
-            UUID bettId = (UUID) getArguments().getSerializable(ARG_BITE_ID);
-            mBite = BiteLab.get(getActivity()).getBite(bettId);
+            UUID biteId = (UUID) getArguments().getSerializable(ARG_BITE_ID);
+            mBite = BiteLab.get(getActivity()).getBite(biteId);
         } else {
             mBite = new Bite();
         }
@@ -115,7 +113,7 @@ public class BiteEditFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager manager = getParentFragmentManager(); // TODO
                 DatePickerFragment dialog = DatePickerFragment.newInstance(mBite.getCalendar());
-                // Make BiteFragment the target fragment for DatePickerFragment.
+                // Make BiteEditFragment the target fragment for DatePickerFragment.
                 dialog.setTargetFragment(BiteEditFragment.this, REQUEST_CALENDAR);
                 dialog.show(manager, DIALOG_DATE);
             }
@@ -152,9 +150,7 @@ public class BiteEditFragment extends Fragment {
                 startActivityForResult(captureImage, REQUEST_PHOTO);
             }
         });
-
-        mZeroDaysImageView = v.findViewById(R.id.zero_days_image_view);
-        updateImageView();
+        updateImageButton();
 
         return v;
     }
@@ -166,12 +162,12 @@ public class BiteEditFragment extends Fragment {
         //BiteLab.get(getActivity()).updateBite(mBite);
     }
 
-    private void updateImageView() {
+    private void updateImageButton() {
         if (mImageFile == null || !mImageFile.exists()) {
-            mZeroDaysImageView.setImageDrawable(null);
+            mZeroDaysImageButton.setImageDrawable(null);
         } else {
             Bitmap bm = ImageScaler.getScaledBitmap(mImageFile.getPath(), getActivity());
-            mZeroDaysImageView.setImageBitmap(bm);
+            mZeroDaysImageButton.setImageBitmap(bm);
         }
     }
 
@@ -215,7 +211,7 @@ public class BiteEditFragment extends Fragment {
 
             getActivity().revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
-            updateImageView();
+            updateImageButton();
         }
     }
 
