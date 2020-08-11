@@ -137,14 +137,15 @@ public class BiteEditFragment extends Fragment {
         mFirstImageButton.setEnabled(canTakePhoto);*/
 
         mFirstImageButton.setOnClickListener(new PhotoButton(mFirstImageFile, REQUEST_FIRST_PHOTO));
+        updateImageButton(mFirstImageFile, mFirstImageButton);
 
         mSecondImageButton = v.findViewById(R.id.second_image_button);
         mSecondImageButton.setOnClickListener(new PhotoButton(mSecondImageFile, REQUEST_SECOND_PHOTO));
+        updateImageButton(mSecondImageFile, mSecondImageButton);
 
         mThirdImageButton = v.findViewById(R.id.third_image_button);
         mThirdImageButton.setOnClickListener(new PhotoButton(mThirdImageFile, REQUEST_THIRD_PHOTO));
-
-        updateImageButton();
+        updateImageButton(mThirdImageFile, mThirdImageButton);
 
         return v;
     }
@@ -190,26 +191,12 @@ public class BiteEditFragment extends Fragment {
         //BiteLab.get(getActivity()).updateBite(mBite);
     }
 
-    private void updateImageButton() {
-        if (mFirstImageFile == null || !mFirstImageFile.exists()) {
-            mFirstImageButton.setImageDrawable(null);
+    private void updateImageButton(File file, ImageButton button) {
+        if (file == null || !file.exists()) {
+            button.setImageDrawable(null);
         } else {
-            Bitmap bm = ImageScaler.getScaledBitmap(mFirstImageFile.getPath(), getActivity());
-            mFirstImageButton.setImageBitmap(bm);
-        }
-
-        if (mSecondImageFile == null || !mSecondImageFile.exists()) {
-            mSecondImageButton.setImageDrawable(null);
-        } else {
-            Bitmap bm = ImageScaler.getScaledBitmap(mSecondImageFile.getPath(), getActivity());
-            mSecondImageButton.setImageBitmap(bm);
-        }
-
-        if (mThirdImageFile == null || !mThirdImageFile.exists()) {
-            mThirdImageButton.setImageDrawable(null);
-        } else {
-            Bitmap bm = ImageScaler.getScaledBitmap(mThirdImageFile.getPath(), getActivity());
-            mThirdImageButton.setImageBitmap(bm);
+            Bitmap bm = ImageScaler.getScaledBitmap(file.getPath(), getActivity());
+            button.setImageBitmap(bm);
         }
     }
 
@@ -247,24 +234,20 @@ public class BiteEditFragment extends Fragment {
             mBite.setCalendar(c);
             updateDate();
         } else if (requestCode == REQUEST_FIRST_PHOTO) {
-            Uri uri = FileProvider.getUriForFile(getActivity()
-                    , getActivity().getPackageName() + ".fileprovider"
-                    , mFirstImageFile);
-            getActivity().revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            updateImageButton();
+            handlePhotoRequest(mFirstImageFile, mFirstImageButton);
         } else if (requestCode == REQUEST_SECOND_PHOTO) {
-            Uri uri = FileProvider.getUriForFile(getActivity()
-                    , getActivity().getPackageName() + ".fileprovider"
-                    , mSecondImageFile);
-            getActivity().revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            updateImageButton();
+            handlePhotoRequest(mSecondImageFile, mSecondImageButton);
         } else if (requestCode == REQUEST_THIRD_PHOTO) {
-            Uri uri = FileProvider.getUriForFile(getActivity()
-                    , getActivity().getPackageName() + ".fileprovider"
-                    , mThirdImageFile);
-            getActivity().revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            updateImageButton();
+            handlePhotoRequest(mThirdImageFile, mThirdImageButton);
         }
+    }
+
+    private void handlePhotoRequest(File file, ImageButton button) {
+        Uri uri = FileProvider.getUriForFile(getActivity()
+                , getActivity().getPackageName() + ".fileprovider"
+                , file);
+        getActivity().revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        updateImageButton(file, button);
     }
 
     private void updateDate() {

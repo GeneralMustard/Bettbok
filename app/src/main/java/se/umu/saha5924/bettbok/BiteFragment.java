@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -85,7 +86,9 @@ public class BiteFragment extends Fragment {
         mFirstImageView = v.findViewById(R.id.first_image_view);
         mSecondImageView = v.findViewById(R.id.second_image_view);
         mThirdImageView = v.findViewById(R.id.third_image_view);
-        updateImageView();
+        updateImageView(mFirstImageFile, mFirstImageView);
+        updateImageView(mSecondImageFile, mSecondImageView);
+        updateImageView(mThirdImageFile, mThirdImageView);
 
         updateUI();
         return v;
@@ -95,29 +98,17 @@ public class BiteFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateUI();
-        updateImageView();
+        updateImageView(mFirstImageFile, mFirstImageView);
+        updateImageView(mSecondImageFile, mSecondImageView);
+        updateImageView(mThirdImageFile, mThirdImageView);
     }
 
-    private void updateImageView() {
-        if (mFirstImageFile == null || !mFirstImageFile.exists()) {
-            mFirstImageView.setImageDrawable(null);
+    private void updateImageView(File file, ImageView view) {
+        if (file == null || !file.exists()) {
+            view.setImageDrawable(null);
         } else {
-            Bitmap bm = ImageScaler.getScaledBitmap(mFirstImageFile.getPath(), getActivity());
-            mFirstImageView.setImageBitmap(bm);
-        }
-
-        if (mSecondImageFile == null || !mSecondImageFile.exists()) {
-            mSecondImageView.setImageDrawable(null);
-        } else {
-            Bitmap bm = ImageScaler.getScaledBitmap(mSecondImageFile.getPath(), getActivity());
-            mSecondImageView.setImageBitmap(bm);
-        }
-
-        if (mThirdImageFile == null || !mThirdImageFile.exists()) {
-            mThirdImageView.setImageDrawable(null);
-        } else {
-            Bitmap bm = ImageScaler.getScaledBitmap(mThirdImageFile.getPath(), getActivity());
-            mThirdImageView.setImageBitmap(bm);
+            Bitmap bm = ImageScaler.getScaledBitmap(file.getPath(), getActivity());
+            view.setImageBitmap(bm);
         }
     }
 
