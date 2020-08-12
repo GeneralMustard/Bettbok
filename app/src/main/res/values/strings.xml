@@ -21,4 +21,14 @@
     <string name="show_date">Datum: %1$d/%2$d-%3$d</string>
     <string name="days_since_bite">Dagar sedan bett: %1$d</string>
 
+    <string name="show_stage">Fästingens stadie: %1$s</string>
+    <string name="stage_dialog_title">Välj fästingens stadie: </string>
+    <string-array name="stages_array">
+        <item>Inget valt</item>
+        <item>Larv</item>
+        <item>Nymf</item>
+        <item>Vuxen hane</item>
+        <item>Vuxen hona</item>
+    </string-array>
+
 </resources>

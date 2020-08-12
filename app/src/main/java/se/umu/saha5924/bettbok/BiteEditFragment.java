@@ -1,6 +1,7 @@
 package se.umu.saha5924.bettbok;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -31,14 +32,18 @@ public class BiteEditFragment extends Fragment {
 
     private static final String ARG_BITE_ID = "bite_id";
     private static final String DIALOG_DATE = "DialogDate";
+    private static final String DIALOG_STAGE = "DialogStage";
+
     private static final int REQUEST_CALENDAR = 0;
     private static final int REQUEST_FIRST_PHOTO = 1;
     private static final int REQUEST_SECOND_PHOTO = 2;
     private static final int REQUEST_THIRD_PHOTO = 3;
+    private static final int REQUEST_STAGE = 4;
 
     private Bite mBite;
     private EditText mPlacementEditText;
     private Button mDateButton;
+    private Button mStageButton;
 
     private Photo mFirstPhoto;
     private Photo mSecondPhoto;
@@ -113,6 +118,18 @@ public class BiteEditFragment extends Fragment {
             }
         });
 
+        mStageButton = v.findViewById(R.id.stage_button);
+        updateStage();
+        mStageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getParentFragmentManager();
+                StagePickerFragment dialog = new StagePickerFragment();
+                dialog.setTargetFragment(BiteEditFragment.this, REQUEST_STAGE);
+                dialog.show(manager, DIALOG_STAGE);
+            }
+        });
+
         mFirstPhoto = new Photo
                 (getActivity(), v, R.id.first_image_button, mBite, REQUEST_FIRST_PHOTO);
         mSecondPhoto = new Photo
@@ -171,6 +188,10 @@ public class BiteEditFragment extends Fragment {
             Calendar c = (Calendar) data.getSerializableExtra(DatePickerFragment.EXTRA_CALENDAR);
             mBite.setCalendar(c);
             updateDate();
+        } else if (requestCode == REQUEST_STAGE && data != null) {
+            String s = (String) data.getSerializableExtra(StagePickerFragment.EXTRA_STAGE);
+            mBite.setStage(s);
+            updateStage();
         } else if (requestCode == REQUEST_FIRST_PHOTO) {
             mFirstPhoto.handlePhotoRequest();
         } else if (requestCode == REQUEST_SECOND_PHOTO) {
@@ -186,5 +207,9 @@ public class BiteEditFragment extends Fragment {
         int month = c.get(Calendar.MONTH)+1;
         int day = c.get(Calendar.DAY_OF_MONTH);
         mDateButton.setText(getString(R.string.show_date, day, month, year));
+    }
+
+    private void updateStage() {
+        mStageButton.setText(getString(R.string.show_stage, mBite.getStage()));
     }
 }

@@ -16,12 +16,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/placement_edit_text"/>
 
+    <Button
+        android:id="@+id/stage_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date_button"/>
+
+    <TextView
+        android:id="@+id/photo_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stage_button"
+        android:text="Ta en bild på ditt bett:"/>
+
     <LinearLayout
         android:id="@+id/lin_lay_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/date_button"
+        android:layout_below="@id/photo_message"
         android:layout_toStartOf="@+id/lin_lay_2">
 
         <TextView
@@ -47,7 +60,7 @@
         android:orientation="vertical"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_below="@id/date_button"
+        android:layout_below="@id/photo_message"
         android:layout_centerHorizontal="true">
 
         <TextView
@@ -71,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/date_button"
+        android:layout_below="@id/photo_message"
         android:layout_toEndOf="@id/lin_lay_2">
 
         <TextView

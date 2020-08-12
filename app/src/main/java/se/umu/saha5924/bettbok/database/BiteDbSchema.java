@@ -9,6 +9,7 @@ public class BiteDbSchema {
             public static final String UUID = "uuid";
             public static final String PLACEMENT = "placement";
             public static final String CALENDAR = "calendar";
+            public static final String STAGE = "stage";
         }
     }
 }

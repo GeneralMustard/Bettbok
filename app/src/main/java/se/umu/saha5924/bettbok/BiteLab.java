@@ -129,6 +129,7 @@ public class BiteLab {
         values.put(BiteTable.Cols.UUID, bite.getId().toString());
         values.put(BiteTable.Cols.PLACEMENT, bite.getPlacement());
         values.put(BiteTable.Cols.CALENDAR, bite.getCalendar().getTimeInMillis());
+        values.put(BiteTable.Cols.STAGE, bite.getStage());
 
         return values;
     }

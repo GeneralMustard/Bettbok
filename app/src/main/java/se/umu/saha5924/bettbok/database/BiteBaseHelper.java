@@ -20,7 +20,8 @@ public class BiteBaseHelper extends SQLiteOpenHelper {
                 " _id integer primary key autoincrement, " +
                 BiteTable.Cols.UUID + ", " +
                 BiteTable.Cols.PLACEMENT + ", " +
-                BiteTable.Cols.CALENDAR  + ")"
+                BiteTable.Cols.CALENDAR  + "," +
+                BiteTable.Cols.STAGE + ")"
         );
     }
 

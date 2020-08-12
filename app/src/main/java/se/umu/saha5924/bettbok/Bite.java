@@ -9,6 +9,7 @@ public class Bite {
     private UUID mId;
     private Calendar mCalendar;
     private String mPlacement;
+    private String mStage;
 
     public Bite() {
         this(UUID.randomUUID());
@@ -18,6 +19,7 @@ public class Bite {
         mId = id;
         mCalendar = Calendar.getInstance();
         mCalendar.setTime(new Date());
+        mStage = "Inget valt";
     }
 
     public String getImageFilename(int i) {
@@ -33,6 +35,14 @@ public class Bite {
             days = (int) ((nowMilli-biteMilli) / (1000*60*60*24));
 
         return days;
+    }
+
+    public String getStage() {
+        return mStage;
+    }
+
+    public void setStage(String s) {
+        mStage = s;
     }
 
     public UUID getId() {

@@ -33,6 +33,7 @@ public class BiteFragment extends Fragment {
     private TextView mPlacementTextView;
     private TextView mDateTextView;
     private TextView mDaysSinceBite;
+    private TextView mStage;
     private FloatingActionButton mEditFab;
 
 
@@ -72,6 +73,7 @@ public class BiteFragment extends Fragment {
         mPlacementTextView = v.findViewById(R.id.placement_text_view);
         mDateTextView = v.findViewById(R.id.date_text_view);
         mDaysSinceBite = v.findViewById(R.id.days_since_bite);
+        mStage = v.findViewById(R.id.stage);
 
         mEditFab = v.findViewById(R.id.fab_edit_bite);
         mEditFab.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +169,8 @@ public class BiteFragment extends Fragment {
 
         mDaysSinceBite.setText(getString(R.string.days_since_bite
                 , bite.getDaysSinceBite(Calendar.getInstance())));
+
+        mStage.setText(getString(R.string.show_stage, bite.getStage()));
     }
 
     //TODO

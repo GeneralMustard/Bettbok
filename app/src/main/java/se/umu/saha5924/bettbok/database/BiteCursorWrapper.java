@@ -28,12 +28,14 @@ public class BiteCursorWrapper extends CursorWrapper {
         String uuidString = getString(getColumnIndex(BiteTable.Cols.UUID));
         String placement = getString(getColumnIndex(BiteTable.Cols.PLACEMENT));
         long calendar = getLong(getColumnIndex(BiteTable.Cols.CALENDAR));
+        String stage = getString(getColumnIndex(BiteTable.Cols.STAGE));
 
         Bite bite = new Bite(UUID.fromString(uuidString));
         bite.setPlacement(placement);
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(calendar);
         bite.setCalendar(c);
+        bite.setStage(stage);
 
         return bite;
     }

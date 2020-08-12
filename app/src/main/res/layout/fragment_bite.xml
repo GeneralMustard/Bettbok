@@ -29,12 +29,20 @@
         android:textSize="18sp"
         android:layout_below="@+id/date_text_view"/>
 
+    <TextView
+        android:id="@+id/stage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textSize="18sp"
+        android:layout_below="@+id/days_since_bite"/>
+
     <LinearLayout
         android:id="@+id/lin_lay_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/days_since_bite"
+        android:layout_below="@id/stage"
         android:layout_toStartOf="@+id/lin_lay_2">
 
         <TextView
@@ -60,7 +68,7 @@
         android:orientation="vertical"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_below="@id/days_since_bite"
+        android:layout_below="@id/stage"
         android:layout_centerHorizontal="true">
 
         <TextView
@@ -84,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/days_since_bite"
+        android:layout_below="@id/stage"
         android:layout_toEndOf="@id/lin_lay_2">
 
         <TextView
