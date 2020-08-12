@@ -32,7 +32,9 @@ public class BiteFragment extends Fragment {
     private UUID mBiteId;
     private TextView mPlacementTextView;
     private TextView mDateTextView;
+    private TextView mDaysSinceBite;
     private FloatingActionButton mEditFab;
+
 
     private Photo mFirstPhoto;
     private Photo mSecondPhoto;
@@ -69,6 +71,7 @@ public class BiteFragment extends Fragment {
 
         mPlacementTextView = v.findViewById(R.id.placement_text_view);
         mDateTextView = v.findViewById(R.id.date_text_view);
+        mDaysSinceBite = v.findViewById(R.id.days_since_bite);
 
         mEditFab = v.findViewById(R.id.fab_edit_bite);
         mEditFab.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +90,7 @@ public class BiteFragment extends Fragment {
         mThirdPhoto = new Photo
                 (getActivity(), v, R.id.third_image_button, b, 3);
 
-        mFirstPhoto.inactivateButton();
+        mFirstPhoto.inactivateButton(); //TODO
         mSecondPhoto.inactivateButton();
         mThirdPhoto.inactivateButton();
 
@@ -153,6 +156,7 @@ public class BiteFragment extends Fragment {
 
     private void updateUI() {
         Bite bite = BiteLab.get(getActivity()).getBite(mBiteId);
+
         mPlacementTextView.setText(bite.getPlacement());
 
         Calendar c = bite.getCalendar();
@@ -160,6 +164,9 @@ public class BiteFragment extends Fragment {
         int month = c.get(Calendar.MONTH)+1;
         int day = c.get(Calendar.DAY_OF_MONTH);
         mDateTextView.setText(getString(R.string.show_date, day, month, year));
+
+        mDaysSinceBite.setText(getString(R.string.days_since_bite
+                , bite.getDaysSinceBite(Calendar.getInstance())));
     }
 
     //TODO

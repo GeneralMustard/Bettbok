@@ -19,4 +19,6 @@
     <string name="remove_bite_dialog_message">Vill du verkligen ta bort detta bett?</string>
 
     <string name="show_date">Datum: %1$d/%2$d-%3$d</string>
+    <string name="days_since_bite">Dagar sedan bett: %1$d</string>
+
 </resources>

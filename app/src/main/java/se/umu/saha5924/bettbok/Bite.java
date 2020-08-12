@@ -24,6 +24,17 @@ public class Bite {
         return "IMG_" + getId().toString() + i + ".jpg";
     }
 
+    public int getDaysSinceBite(Calendar now) {
+        int days = 0;
+        long nowMilli = now.getTimeInMillis();
+        long biteMilli = mCalendar.getTimeInMillis();
+
+        if (nowMilli > biteMilli)
+            days = (int) ((nowMilli-biteMilli) / (1000*60*60*24));
+
+        return days;
+    }
+
     public UUID getId() {
         return mId;
     }
