@@ -41,7 +41,7 @@
             android:scaleType="centerInside"
             android:cropToPadding="true"
             android:background="@color/colorPrimaryDark"
-            android:contentDescription="TODO" />
+            android:contentDescription="@string/first_photo_description" />
 
     </LinearLayout>
 
@@ -67,7 +67,7 @@
             android:scaleType="centerInside"
             android:cropToPadding="true"
             android:background="@color/colorPrimaryDark"
-            android:contentDescription="TODO" />
+            android:contentDescription="@string/second_photo_description" />
 
     </LinearLayout>
 
@@ -91,7 +91,7 @@
             android:scaleType="centerInside"
             android:cropToPadding="true"
             android:background="@color/colorPrimaryDark"
-            android:contentDescription="TODO" />
+            android:contentDescription="@string/third_photo_description" />
 
     </LinearLayout>
 

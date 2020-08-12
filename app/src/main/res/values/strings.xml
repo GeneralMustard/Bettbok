@@ -11,6 +11,9 @@
     <string name="first_photo">0 dagar</string>
     <string name="second_photo">14 dagar</string>
     <string name="third_photo">28 dagar</string>
+    <string name="first_photo_description">Foto från när du fick bettet.</string>
+    <string name="second_photo_description">Foto 14 dagar efter bettet.</string>
+    <string name="third_photo_description">Foto 28 dagar efter bettet.</string>
 
     <string name="show_date">Datum: %1$d/%2$d-%3$d</string>
 </resources>

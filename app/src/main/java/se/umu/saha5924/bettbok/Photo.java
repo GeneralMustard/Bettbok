@@ -22,11 +22,11 @@ public class Photo {
     private Activity mActivity;
     private int mRequest;
 
-    public Photo(Activity activity, View v, int layoutId, Bite bite, int request) {
-        this.mImageButton = v.findViewById(layoutId);
-        this.mActivity = activity;
-        this.mRequest = request;
-        this.mImageFile = BiteLab.get(activity).getImageFile(bite, request);
+    public Photo(Activity activity, View view, int layoutId, Bite bite, int request) {
+        mImageButton = view.findViewById(layoutId);
+        mActivity = activity;
+        mRequest = request;
+        mImageFile = BiteLab.get(activity).getImageFile(bite, request);
 
         mImageButton.setOnClickListener(new PhotoButton());
         updateImageButton();
