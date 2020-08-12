@@ -15,5 +15,8 @@
     <string name="second_photo_description">Foto 14 dagar efter bettet.</string>
     <string name="third_photo_description">Foto 28 dagar efter bettet.</string>
 
+    <string name="remove_bite_dialog_title">Ta bort bett</string>
+    <string name="remove_bite_dialog_message">Vill du verkligen ta bort detta bett?</string>
+
     <string name="show_date">Datum: %1$d/%2$d-%3$d</string>
 </resources>

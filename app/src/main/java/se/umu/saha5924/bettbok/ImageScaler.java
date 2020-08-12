@@ -15,7 +15,6 @@ public class ImageScaler {
         return getScaledBitmap(path, size.x, size.y);
     }
 
-
     public static Bitmap getScaledBitmap(String path, int destWidth, int destHeight) {
 
         // Get the size of the saved image.
@@ -29,8 +28,7 @@ public class ImageScaler {
         if (srcHeight > destHeight || srcWidth > destWidth) {
             float heightScale = srcHeight / destHeight;
             float widthScale = srcWidth / destWidth;
-            inSampleSize = Math.round(heightScale > widthScale ? heightScale :
-                    widthScale);
+            inSampleSize = Math.round(Math.max(heightScale, widthScale));
         }
 
         options = new BitmapFactory.Options();

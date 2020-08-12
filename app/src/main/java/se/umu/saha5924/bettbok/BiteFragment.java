@@ -1,5 +1,7 @@
 package se.umu.saha5924.bettbok;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -111,13 +114,35 @@ public class BiteFragment extends Fragment {
         switch (item.getItemId()) {
             // The user has requested a new Bite.
             case R.id.delete_bite:
-                Bite bite = BiteLab.get(getActivity()).getBite(mBiteId);
-                BiteLab.get(getActivity()).deleteBite(bite);
-                getActivity().finish();
+                removeBiteDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void removeBiteDialog() {
+        AlertDialog removeBite = new AlertDialog.Builder(getActivity()).create();
+        removeBite.setTitle(getString(R.string.remove_bite_dialog_title));
+        removeBite.setMessage(getString(R.string.remove_bite_dialog_message));
+
+        removeBite.setButton(AlertDialog.BUTTON_POSITIVE, "JA", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Bite bite = BiteLab.get(getActivity()).getBite(mBiteId);
+                BiteLab.get(getActivity()).deleteBite(bite);
+                getActivity().finish();
+            }
+        });
+
+        removeBite.setButton(AlertDialog.BUTTON_NEGATIVE, "NEJ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Nothing
+            }
+        });
+
+        removeBite.show();
     }
 
     private void updateUI() {
@@ -130,4 +155,5 @@ public class BiteFragment extends Fragment {
         int day = c.get(Calendar.DAY_OF_MONTH);
         mDateTextView.setText(getString(R.string.show_date, day, month, year));
     }
+
 }
