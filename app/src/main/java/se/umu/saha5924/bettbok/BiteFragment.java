@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,15 +19,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.UUID;
 
 public class BiteFragment extends Fragment {
 
-    private static final String ARG_BITE_ID = "bite_id";
+    NavController mNavController;
+
+    public static final String ARG_BITE_ID = "bite_id";
     private static final String DIALOG_REMOVE_BITE = "DialogRemoveBite";
 
     private UUID mBiteId;
@@ -79,8 +85,11 @@ public class BiteFragment extends Fragment {
         mEditFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = BiteEditActivity.newIntent(getActivity(), mBiteId);
-                startActivity(intent);
+                /*Intent intent = BiteEditActivity.newIntent(getActivity(), mBiteId);
+                startActivity(intent);*/
+                Bundle args = new Bundle();
+                args.putSerializable(BiteEditFragment.ARG_BITE_ID, mBiteId);
+                mNavController.navigate(R.id.action_biteFragment2_to_biteEditFragment2, args);
             }
         });
 
@@ -101,8 +110,17 @@ public class BiteFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mNavController = Navigation.findNavController(view);
+
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+
+        Log.e("onResume", "on resume called BiteFragment");
 
         mFirstPhoto.updateImageButton();
         mSecondPhoto.updateImageButton();
@@ -142,7 +160,7 @@ public class BiteFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 Bite bite = BiteLab.get(getActivity()).getBite(mBiteId);
                 BiteLab.get(getActivity()).deleteBite(bite);
-                getActivity().finish();
+                requireActivity().onBackPressed();
             }
         });
 
@@ -158,7 +176,7 @@ public class BiteFragment extends Fragment {
 
     private void updateUI() {
         Bite bite = BiteLab.get(getActivity()).getBite(mBiteId);
-
+        String s = bite.getPlacement(); //TODO
         mPlacementTextView.setText(bite.getPlacement());
 
         Calendar c = bite.getCalendar();

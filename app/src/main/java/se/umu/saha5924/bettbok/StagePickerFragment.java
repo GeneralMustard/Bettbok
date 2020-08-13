@@ -11,6 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * StagePickerFragment is responsible for the dialog that lets
+ * the user choose the stage of the tick that made the bite.
+ */
+
 public class StagePickerFragment extends DialogFragment {
 
     public static final String EXTRA_STAGE = "se.umu.saha5924.bettbok.stage";
@@ -23,6 +28,7 @@ public class StagePickerFragment extends DialogFragment {
                 .setItems(R.array.stages_array, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // Find the stage chosen by the user and send it to the host.
                         String[] tmp = getResources().getStringArray(R.array.stages_array);
                         sendResult(tmp[which]);
                     }

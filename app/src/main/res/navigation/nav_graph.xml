@@ -2,4 +2,48 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph" />
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/biteListFragment3">
+
+    <fragment
+        android:id="@+id/biteListFragment3"
+        android:name="se.umu.saha5924.bettbok.BiteListFragment"
+        android:label="fragment_bite_list"
+        tools:layout="@layout/fragment_bite_list" >
+
+        <action
+            android:id="@+id/action_biteListFragment3_to_biteFragment2"
+            app:destination="@id/biteFragment2" />
+        <action
+            android:id="@+id/action_biteListFragment3_to_biteEditFragment2"
+            app:destination="@id/biteEditFragment2" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/biteFragment2"
+        android:name="se.umu.saha5924.bettbok.BiteFragment"
+        android:label="fragment_bite"
+        tools:layout="@layout/fragment_bite">
+
+        <argument
+            android:name="id"
+            android:defaultValue="None"/>
+
+        <action
+            android:id="@+id/action_biteFragment2_to_biteEditFragment2"
+            app:destination="@id/biteEditFragment2" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/biteEditFragment2"
+        android:name="se.umu.saha5924.bettbok.BiteEditFragment"
+        android:label="BiteEditFragment" >
+
+        <argument
+            android:name="id"
+            android:defaultValue="None"/>
+
+    </fragment>
+
+</navigation>

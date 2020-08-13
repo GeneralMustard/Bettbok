@@ -19,14 +19,13 @@ import java.util.Calendar;
 public class DatePickerFragment extends DialogFragment {
 
     public static final String EXTRA_CALENDAR = "se.umu.saha5924.bettbok.calendar";
-
     private static final String ARG_CALENDAR = "calendar";
 
     private DatePicker mDatePicker;
 
     /**
      * newInstance will create and return a DatePickerFragment
-     * containing a Calendar as an argument.
+     * containing a Calendar as an argument in the Bundle.
      *
      * @param calendar The calendar for the argument.
      * @return The created DatePickerFragment.
@@ -43,15 +42,15 @@ public class DatePickerFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_date, null);
+
+        // Retrieve the Calendar from the Bundle and use it to get the year, month and day.
         Calendar c = (Calendar) getArguments().getSerializable(ARG_CALENDAR);
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        View v = LayoutInflater.from(getActivity())
-                .inflate(R.layout.dialog_date, null);
-
-        // Make the DatePicker show the saved date for the Bite.
+        // Let the DatePicker show the saved date for the Bite.
         mDatePicker = v.findViewById(R.id.dialog_date_picker);
         mDatePicker.init(year, month, day, null);
 

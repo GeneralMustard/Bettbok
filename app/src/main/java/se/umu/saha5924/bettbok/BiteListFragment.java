@@ -1,11 +1,8 @@
 package se.umu.saha5924.bettbok;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +24,8 @@ import java.util.List;
  * BiteListFragment is responsible for the Fragment connected to a list of Bites.
  */
 public class BiteListFragment extends Fragment {
+
+    NavController mNavController;
 
     private RecyclerView mBiteRecyclerView;
     private BiteAdapter mBiteAdapter;
@@ -39,7 +40,7 @@ public class BiteListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_bett_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_bite_list, container, false);
 
         mBiteRecyclerView = v.findViewById(R.id.bite_recycler_view);
         mBiteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -50,8 +51,11 @@ public class BiteListFragment extends Fragment {
             public void onClick(View v) {
                 Bite bite = new Bite();
                 BiteLab.get(getActivity()).addBite(bite);
-                Intent intent = BiteEditActivity.newIntent(getActivity(), bite.getId());
-                startActivity(intent);
+                /*Intent intent = BiteEditActivity.newIntent(getActivity(), bite.getId());
+                startActivity(intent);*/
+                Bundle args = new Bundle();
+                args.putSerializable(BiteFragment.ARG_BITE_ID, bite.getId());
+                mNavController.navigate(R.id.action_biteListFragment3_to_biteEditFragment2, args);
             }
         });
 
@@ -59,10 +63,19 @@ public class BiteListFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mNavController = Navigation.findNavController(view);
+    }
+
     // Updates the list of Bites to reflect the current state of each Bite.
     private void updateUI() {
         List<Bite> bites = BiteLab.get(getActivity()).getBites();
 
+        mBiteAdapter = new BiteAdapter(bites);
+        mBiteRecyclerView.setAdapter(mBiteAdapter);
+/*
         if (mBiteAdapter == null) {
             // A new adapter is needed.
             mBiteAdapter = new BiteAdapter(bites);
@@ -71,34 +84,14 @@ public class BiteListFragment extends Fragment {
             // An adapter already exists and is updated to reflect possible changes.
             mBiteAdapter.setBites(bites);
             mBiteAdapter.notifyDataSetChanged();
-        }
+        }*/
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.e("onResume", "on resume called BiteListFragment");
         updateUI();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_bite_list, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            // The user has requested a new Bite.
-            /*case R.id.new_bite:
-                Bite bite = new Bite();
-                BiteLab.get(getActivity()).addBite(bite);
-                Intent intent = BiteEditActivity.newIntent(getActivity(), bite.getId());
-                startActivity(intent);
-                return true;*/
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     // TODO move to own class
@@ -155,9 +148,12 @@ public class BiteListFragment extends Fragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = BiteActivity.newIntent(getActivity(),
+                        /*Intent intent = BiteActivity.newIntent(getActivity(),
                                 mBite.get(getAbsoluteAdapterPosition()).getId());
-                        startActivity(intent);
+                        startActivity(intent);*/
+                        Bundle args = new Bundle();
+                        args.putSerializable(BiteFragment.ARG_BITE_ID, mBite.get(getAbsoluteAdapterPosition()).getId());
+                        mNavController.navigate(R.id.action_biteListFragment3_to_biteFragment2, args);
                     }
                 });
             }

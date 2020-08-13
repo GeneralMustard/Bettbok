@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ import java.util.UUID;
 
 public class BiteEditFragment extends Fragment {
 
-    private static final String ARG_BITE_ID = "bite_id";
+    public static final String ARG_BITE_ID = "bite_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_STAGE = "DialogStage";
 
@@ -89,6 +90,7 @@ public class BiteEditFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mBite.setPlacement(s.toString());
+                BiteLab.get(getActivity()).updateBite(mBite);
             }
 
             @Override
@@ -135,8 +137,11 @@ public class BiteEditFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+
+        Log.e("onPause", "onPause called BiteEditFragment");
+
         // Update BiteLab's Bite when BiteFragment is done.
-        BiteLab.get(getActivity()).updateBite(mBite);
+        //BiteLab.get(getActivity()).updateBite(mBite);
     }
 
     @Override
@@ -155,10 +160,12 @@ public class BiteEditFragment extends Fragment {
         if (requestCode == REQUEST_CALENDAR && data != null) {
             Calendar c = (Calendar) data.getSerializableExtra(DatePickerFragment.EXTRA_CALENDAR);
             mBite.setCalendar(c);
+            BiteLab.get(getActivity()).updateBite(mBite);
             updateDate();
         } else if (requestCode == REQUEST_STAGE && data != null) {
             String s = (String) data.getSerializableExtra(StagePickerFragment.EXTRA_STAGE);
             mBite.setStage(s);
+            BiteLab.get(getActivity()).updateBite(mBite);
             updateStage();
         } else if (requestCode == REQUEST_FIRST_PHOTO) {
             mFirstPhoto.handlePhotoRequest();

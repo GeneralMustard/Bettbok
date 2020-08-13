@@ -10,16 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".BitePagerActivity"
-            android:parentActivityName=".BiteListActivity">
-        </activity>
-        <activity android:name=".BiteEditActivity"/>
-        <activity
-            android:name=".BiteActivity"
-            android:parentActivityName=".BiteListActivity">
-        </activity>
-        <activity
-            android:name=".BiteListActivity">
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
