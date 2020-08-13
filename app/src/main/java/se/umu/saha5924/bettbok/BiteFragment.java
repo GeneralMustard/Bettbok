@@ -3,7 +3,6 @@ package se.umu.saha5924.bettbok;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,14 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
-import java.util.Objects;
 import java.util.UUID;
 
 public class BiteFragment extends Fragment {
@@ -89,7 +86,7 @@ public class BiteFragment extends Fragment {
                 startActivity(intent);*/
                 Bundle args = new Bundle();
                 args.putSerializable(BiteEditFragment.ARG_BITE_ID, mBiteId);
-                mNavController.navigate(R.id.action_biteFragment2_to_biteEditFragment2, args);
+                mNavController.navigate(R.id.action_biteFragment_to_biteEditFragment, args);
             }
         });
 

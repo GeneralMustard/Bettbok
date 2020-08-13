@@ -55,7 +55,7 @@ public class BiteListFragment extends Fragment {
                 startActivity(intent);*/
                 Bundle args = new Bundle();
                 args.putSerializable(BiteFragment.ARG_BITE_ID, bite.getId());
-                mNavController.navigate(R.id.action_biteListFragment3_to_biteEditFragment2, args);
+                mNavController.navigate(R.id.action_biteListFragment_to_biteEditFragment, args);
             }
         });
 
@@ -153,7 +153,7 @@ public class BiteListFragment extends Fragment {
                         startActivity(intent);*/
                         Bundle args = new Bundle();
                         args.putSerializable(BiteFragment.ARG_BITE_ID, mBite.get(getAbsoluteAdapterPosition()).getId());
-                        mNavController.navigate(R.id.action_biteListFragment3_to_biteFragment2, args);
+                        mNavController.navigate(R.id.action_biteListFragment_to_biteFragment, args);
                     }
                 });
             }
