@@ -1,15 +1,11 @@
 package se.umu.saha5924.bettbok;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -61,10 +57,6 @@ public class BiteEditFragment extends Fragment {
         BiteEditFragment fragment = new BiteEditFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public static BiteEditFragment newInstance() {
-        return new BiteEditFragment();
     }
 
     @Override
@@ -144,7 +136,7 @@ public class BiteEditFragment extends Fragment {
     public void onPause() {
         super.onPause();
         // Update BiteLab's Bite when BiteFragment is done.
-        //BiteLab.get(getActivity()).updateBite(mBite);
+        BiteLab.get(getActivity()).updateBite(mBite);
     }
 
     @Override
@@ -153,30 +145,6 @@ public class BiteEditFragment extends Fragment {
         mFirstPhoto.updateImageButton();
         mSecondPhoto.updateImageButton();
         mThirdPhoto.updateImageButton();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_edit_bite, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            // Request to save the changes.
-            case R.id.save_bite:
-                // Update BiteLab's Bite when Bite is saved.
-                if (BiteLab.get(getActivity()).biteExist(mBite.getId())) {
-                    BiteLab.get(getActivity()).updateBite(mBite);
-                } else {
-                    BiteLab.get(getActivity()).addBite(mBite);
-                }
-                getActivity().finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override

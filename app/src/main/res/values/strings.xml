@@ -8,6 +8,7 @@
     <string name="delete_bite">Ta bort</string>
     <string name="save_bite">Spara</string>
 
+    <string name="photo_message">Ta en bild på ditt bett:</string>
     <string name="first_photo">0 dagar</string>
     <string name="second_photo">14 dagar</string>
     <string name="third_photo">28 dagar</string>

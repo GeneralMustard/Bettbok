@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="22sp"
         android:textStyle="bold" />
@@ -17,25 +18,28 @@
         android:id="@+id/date_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/placement_text_view"
         android:layout_marginBottom="16dp"
-        android:textSize="18sp"
-        android:layout_below="@+id/placement_text_view"/>
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/days_since_bite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/date_text_view"
         android:layout_marginBottom="16dp"
-        android:textSize="18sp"
-        android:layout_below="@+id/date_text_view"/>
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/stage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/days_since_bite"
         android:layout_marginBottom="16dp"
-        android:textSize="18sp"
-        android:layout_below="@+id/days_since_bite"/>
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:id="@+id/lin_lay_1"
@@ -56,7 +60,7 @@
             android:layout_height="80dp"
             android:scaleType="centerInside"
             android:cropToPadding="true"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorGray"
             android:contentDescription="@string/first_photo_description" />
 
     </LinearLayout>
@@ -82,7 +86,7 @@
             android:layout_height="80dp"
             android:scaleType="centerInside"
             android:cropToPadding="true"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorGray"
             android:contentDescription="@string/second_photo_description" />
 
     </LinearLayout>
@@ -106,7 +110,7 @@
             android:layout_height="80dp"
             android:scaleType="centerInside"
             android:cropToPadding="true"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorGray"
             android:contentDescription="@string/third_photo_description" />
 
     </LinearLayout>

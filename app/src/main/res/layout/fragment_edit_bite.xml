@@ -7,19 +7,25 @@
         android:id="@+id/placement_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:hint="@string/bite_placement"
-        android:inputType="textShortMessage" />
+        android:inputType="textShortMessage"
+        android:textAlignment="center" />
     
     <Button
         android:id="@+id/date_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorAccent"
         android:layout_below="@id/placement_edit_text"/>
 
     <Button
         android:id="@+id/stage_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorAccent"
         android:layout_below="@id/date_button"/>
 
     <TextView
@@ -27,7 +33,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/stage_button"
-        android:text="Ta en bild på ditt bett:"/>
+        android:layout_marginBottom="8dp"
+        android:text="@string/photo_message"
+        android:textAlignment="center" />
 
     <LinearLayout
         android:id="@+id/lin_lay_1"
@@ -48,7 +56,7 @@
             android:layout_height="80dp"
             android:scaleType="centerInside"
             android:cropToPadding="true"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorGray"
             android:contentDescription="@string/first_photo_description" />
 
     </LinearLayout>
@@ -74,7 +82,7 @@
             android:layout_height="80dp"
             android:scaleType="centerInside"
             android:cropToPadding="true"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorGray"
             android:contentDescription="@string/second_photo_description" />
 
     </LinearLayout>
@@ -98,7 +106,7 @@
             android:layout_height="80dp"
             android:scaleType="centerInside"
             android:cropToPadding="true"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorGray"
             android:contentDescription="@string/third_photo_description" />
 
     </LinearLayout>

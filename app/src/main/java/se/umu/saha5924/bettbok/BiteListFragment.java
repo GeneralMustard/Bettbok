@@ -48,9 +48,9 @@ public class BiteListFragment extends Fragment {
         mAddFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Bite bite = new Bite();
-                //BiteLab.get(getActivity()).addBite(bite);
-                Intent intent = BiteEditActivity.newIntent(getActivity());
+                Bite bite = new Bite();
+                BiteLab.get(getActivity()).addBite(bite);
+                Intent intent = BiteEditActivity.newIntent(getActivity(), bite.getId());
                 startActivity(intent);
             }
         });
