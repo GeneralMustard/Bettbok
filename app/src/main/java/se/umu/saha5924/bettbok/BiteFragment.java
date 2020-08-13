@@ -183,7 +183,7 @@ public class BiteFragment extends Fragment {
         mDateTextView.setText(getString(R.string.show_date, day, month, year));
 
         mDaysSinceBite.setText(getString(R.string.days_since_bite
-                , bite.getDaysSinceBite(Calendar.getInstance())));
+                , bite.getDaysSinceBite()));
 
         mStage.setText(getString(R.string.show_stage, bite.getStage()));
     }
