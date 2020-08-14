@@ -16,12 +16,21 @@ import se.umu.saha5924.bettbok.database.BiteBaseHelper;
 import se.umu.saha5924.bettbok.database.BiteCursorWrapper;
 import se.umu.saha5924.bettbok.database.BiteDbSchema.BiteTable;
 
+/**
+ * BiteLab is responsible for handling requests concerning the Bites in the database.
+ */
 public class BiteLab {
 
     private SQLiteDatabase mDatabase;
     private static BiteLab biteLab;
     private Context mContext;
 
+    /**
+     * Will return an existing BiteLab if there is one. Otherwise a new BiteLab is returned.
+     *
+     * @param context The application context.
+     * @return The BiteLab.
+     */
     public static BiteLab get(Context context) {
         if (biteLab == null) biteLab = new BiteLab(context);
         return biteLab;
@@ -30,24 +39,27 @@ public class BiteLab {
     private BiteLab(Context context) {
         mContext = context.getApplicationContext();
         mDatabase = new BiteBaseHelper(mContext).getWritableDatabase();
-        /*
-        mBett = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            Bett bett = new Bett();
-            bett.setmPlacering("Bett #" + i);
-            mBett.add(bett);
-        }*/
     }
 
-    public void addBite(Bite b) {
-        mDatabase.insert(BiteTable.NAME, null, getContentValues(b));
+    /**
+     * Add the given Bite to the database.
+     *
+     * @param bite The Bite to be added.
+     */
+    public void addBite(Bite bite) {
+        mDatabase.insert(BiteTable.NAME, null, getContentValues(bite));
     }
 
-    public void updateBite(Bite b) {
-        String uuidString = b.getId().toString();
-        ContentValues values = getContentValues(b);
+    /**
+     * Update the given Bite in the database.
+     *
+     * @param bite The Bite to be updated.
+     */
+    public void updateBite(Bite bite) {
+        String uuidString = bite.getId().toString();
+        ContentValues values = getContentValues(bite);
 
-        // The UUID is used to find and update the row in the database,
+        // The UUID is used to find and update the row in the database
         // that contains the Bite with the corresponding UUID.
         mDatabase.update(BiteTable.NAME
                 , values
@@ -55,68 +67,101 @@ public class BiteLab {
                 , new String[] { uuidString });
     }
 
-    public void deleteBite(Bite b) {
-        String uuidString = b.getId().toString();
+    /**
+     * Delete the given Bite from the database.
+     *
+     * @param bite The Bite to be deleted.
+     */
+    public void deleteBite(Bite bite) {
+        String uuidString = bite.getId().toString();
         mDatabase.delete(BiteTable.NAME
                 , BiteTable.Cols.UUID + " = ?"
                 , new String[] {uuidString});
     }
 
+    /**
+     * Get a list with all Bites from the database.
+     * The list is sorted by how old the Bite is, where the oldest Bite is last.
+     *
+     * @return All the Bites in the database.
+     */
     public List<Bite> getBites() {
         List<Bite> bites = new ArrayList<>();
-        BiteCursorWrapper cursor = queryBites(null, null); // TODO
 
-        try {
+        try (BiteCursorWrapper cursor = queryBites(null, null)) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 bites.add(cursor.getBite());
                 cursor.moveToNext();
             }
-        } finally {
-            cursor.close();
         }
         sortBites(bites);
         return bites;
     }
 
+    /**
+     * Get the Bite with the given id from the database.
+     *
+     * @param id The id of the Bite to be fetched.
+     * @return The Bite with the given id.
+     */
     public Bite getBite(UUID id) {
-        BiteCursorWrapper cursor = queryBites(
+        try (BiteCursorWrapper cursor = queryBites(
                 BiteTable.Cols.UUID + " = ?"
-                , new String[] { id.toString() });
-
-        try {
+                , new String[]{id.toString()})) {
             if (cursor.getCount() == 0) return null;
             cursor.moveToFirst();
             return cursor.getBite();
-        } finally {
-            cursor.close();
         }
     }
 
-    public File getFirstImageFile(Bite b) {
+    /**
+     * Get the File for the first image connected to given bite.
+     *
+     * @param bite The Bite connected to the File.
+     * @return The File of the first image.
+     */
+    public File getFirstImageFile(Bite bite) {
         File filesDir = mContext.getFilesDir();
-        return new File(filesDir, b.getImageFilename(1));
+        return new File(filesDir, bite.getImageFilename(1));
     }
 
-    public File getSecondImageFile(Bite b) {
+    /**
+     * Get the File for the second image connected to given bite.
+     *
+     * @param bite The Bite connected to the File.
+     * @return The File of the second image.
+     */
+    public File getSecondImageFile(Bite bite) {
         File filesDir = mContext.getFilesDir();
-        return new File(filesDir, b.getImageFilename(2));
+        return new File(filesDir, bite.getImageFilename(2));
     }
 
-    public File getThirdImageFile(Bite b) {
+    /**
+     * Get the File for the third image connected to given bite.
+     *
+     * @param bite The Bite connected to the File.
+     * @return The File of the third image.
+     */
+    public File getThirdImageFile(Bite bite) {
         File filesDir = mContext.getFilesDir();
-        return new File(filesDir, b.getImageFilename(3));
+        return new File(filesDir, bite.getImageFilename(3));
     }
 
+    // Sort a list of Bites by how old they are, with the oldest Bite last.
     private void sortBites(List<Bite> bites) {
         Collections.sort(bites, new SortByTime());
     }
 
-    private class SortByTime implements Comparator<Bite> {
+    // A Comparator for sorting Bites by how old they are.
+    private static class SortByTime implements Comparator<Bite> {
         @Override
         public int compare(Bite b1, Bite b2) {
-             if (b1.getCalendar().getTimeInMillis() > b2.getCalendar().getTimeInMillis())
+             if (b1.getCalendar().getTimeInMillis() > b2.getCalendar().getTimeInMillis()) {
                  return -1;
+             } else if (b1.getCalendar().getTimeInMillis() == b2.getCalendar().getTimeInMillis()) {
+                 return 0;
+             }
              return 1;
         }
     }
