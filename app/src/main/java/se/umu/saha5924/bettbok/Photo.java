@@ -17,21 +17,33 @@ import java.util.List;
 
 public class Photo {
 
-    private ImageButton mImageButton;
-    private File mImageFile;
-    private Activity mActivity;
-    private int mRequest;
+    private ImageButton mImageButton; // ImageButton for displaying the photo and to take new photo
+    private File mImageFile;    // File used for photo.
+    private Activity mActivity; // Active Activity.
+    private int mRequest;       // Request used for retrieving the photo taken by the camera.
 
-    public Photo(Activity activity, View view, int layoutId, Bite bite, int request) {
+    /**
+     * Constructor for Photo.
+     * Will show the photo of the given file on the given layout.
+     * If there is no File on given path, the photo will be left empty.
+     * The Photo will not be clickable by default.
+     *
+     * @param activity The active Activity.
+     * @param view The active View.
+     * @param layoutId The id of the layout to show photo.
+     * @param file The File of the photo that should be shown.
+     */
+    public Photo(Activity activity, View view, int layoutId, File file) {
         mImageButton = view.findViewById(layoutId);
         mActivity = activity;
-        mRequest = request;
-        mImageFile = BiteLab.get(activity).getImageFile(bite, request);
-
-        mImageButton.setOnClickListener(new PhotoButton());
+        mImageFile = file;
+        mImageButton.setEnabled(false);
         updateImageButton();
     }
 
+    /**
+     * Will update the photo if File exists.
+     */
     public void updateImageButton() {
         if (mImageFile == null || !mImageFile.exists()) {
             mImageButton.setImageDrawable(null);
@@ -41,6 +53,22 @@ public class Photo {
         }
     }
 
+    /**
+     * Will enable the photo to be pressed.
+     * Pressing the photo will start the camera.
+     *
+     * @param request int representing the request for collecting photo taken by camera.
+     */
+    public void activateButton(int request) {
+        mRequest = request;
+        mImageButton.setEnabled(true);
+        mImageButton.setOnClickListener(new PhotoButton());
+    }
+
+    /**
+     * Will revoke permission for camera to write to Uri
+     * and update photo to reflect the current File.
+     */
     public void handlePhotoRequest() {
         Uri uri = FileProvider.getUriForFile(mActivity
                 , mActivity.getPackageName() + ".fileprovider"
@@ -49,10 +77,7 @@ public class Photo {
         updateImageButton();
     }
 
-    public void inactivateButton() {
-        mImageButton.setEnabled(false);
-    }
-
+    // PhotoButton will make the photo clickable to take a new photo.
     private class PhotoButton implements View.OnClickListener {
 
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -67,7 +92,7 @@ public class Photo {
         @Override
         public void onClick(View v) {
 
-            // Translate the local filepath for camera.
+            // Translate the local filepath into Uri for camera.
             Uri uri = FileProvider.getUriForFile(mActivity
                     , mActivity.getPackageName() + ".fileprovider"
                     , mImageFile);

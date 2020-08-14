@@ -153,14 +153,22 @@ public class BiteEditFragment extends Fragment {
         });
     }
 
-    // Initiate the Photos of Bite
+    // Initiate the Photos of Bite.
     private void initPhotos(View v) {
         mFirstPhoto = new Photo
-                (getActivity(), v, R.id.first_image_button, mBite, REQUEST_FIRST_PHOTO);
+                (getActivity(), v, R.id.first_image_button
+                        , BiteLab.get(getActivity()).getFirstImageFile(mBite));
         mSecondPhoto = new Photo
-                (getActivity(), v, R.id.second_image_button, mBite, REQUEST_SECOND_PHOTO);
+                (getActivity(), v, R.id.second_image_button
+                        , BiteLab.get(getActivity()).getSecondImageFile(mBite));
         mThirdPhoto = new Photo
-                (getActivity(), v, R.id.third_image_button, mBite, REQUEST_THIRD_PHOTO);
+                (getActivity(), v, R.id.third_image_button
+                        , BiteLab.get(getActivity()).getThirdImageFile(mBite));
+
+        // Activate Button on Photos to take new photos.
+        mFirstPhoto.activateButton(REQUEST_FIRST_PHOTO);
+        mSecondPhoto.activateButton(REQUEST_SECOND_PHOTO);
+        mThirdPhoto.activateButton(REQUEST_THIRD_PHOTO);
     }
 
     // Update text on Button for the Date to reflect the current state of Bite.

@@ -93,21 +93,19 @@ public class BiteLab {
         }
     }
 
-    public boolean biteExist(UUID id) {
-        BiteCursorWrapper cursor = queryBites(
-                BiteTable.Cols.UUID + " = ?"
-                , new String[] { id.toString() });
-
-        try {
-            return cursor.getCount() != 0;
-        } finally {
-            cursor.close();
-        }
+    public File getFirstImageFile(Bite b) {
+        File filesDir = mContext.getFilesDir();
+        return new File(filesDir, b.getImageFilename(1));
     }
 
-    public File getImageFile(Bite bite, int i) {
+    public File getSecondImageFile(Bite b) {
         File filesDir = mContext.getFilesDir();
-        return new File(filesDir, bite.getImageFilename(i));
+        return new File(filesDir, b.getImageFilename(2));
+    }
+
+    public File getThirdImageFile(Bite b) {
+        File filesDir = mContext.getFilesDir();
+        return new File(filesDir, b.getImageFilename(3));
     }
 
     private void sortBites(List<Bite> bites) {

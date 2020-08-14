@@ -112,16 +112,14 @@ public class BiteFragment extends Fragment {
     private void initPhotos(View v) {
         Bite b = BiteLab.get(getActivity()).getBite(mBiteId);
         mFirstPhoto = new Photo
-                (getActivity(), v, R.id.first_image_button, b, 1);
+                (getActivity(), v, R.id.first_image_button
+                        , BiteLab.get(getActivity()).getFirstImageFile(b));
         mSecondPhoto = new Photo
-                (getActivity(), v, R.id.second_image_button, b, 2);
+                (getActivity(), v, R.id.second_image_button
+                        , BiteLab.get(getActivity()).getSecondImageFile(b));
         mThirdPhoto = new Photo
-                (getActivity(), v, R.id.third_image_button, b, 3);
-
-        // Inactivate the possibility to press Photo when in BiteFragment.
-        mFirstPhoto.inactivateButton();
-        mSecondPhoto.inactivateButton();
-        mThirdPhoto.inactivateButton();
+                (getActivity(), v, R.id.third_image_button
+                        , BiteLab.get(getActivity()).getThirdImageFile(b));
     }
 
     // Update UI to show current information of Bite.
