@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +21,11 @@ import java.util.UUID;
 
 /**
  * BiteEditFragment is responsible for the Fragment connected to a Bite.
- *
  */
-
 public class BiteEditFragment extends Fragment {
 
     public static final String ARG_BITE_ID = "bite_id";
+
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_STAGE = "DialogStage";
 
@@ -37,49 +35,73 @@ public class BiteEditFragment extends Fragment {
     private static final int REQUEST_THIRD_PHOTO = 3;
     private static final int REQUEST_STAGE = 4;
 
-    private Bite mBite;
-    private EditText mPlacementEditText;
-    private Button mDateButton;
-    private Button mStageButton;
+    private Bite mBite;         // Bite to edit.
+    private Button mDateButton; // Button for changing date.
+    private Button mStageButton;// Button for changing stage.
 
-    private Photo mFirstPhoto;
-    private Photo mSecondPhoto;
-    private Photo mThirdPhoto;
-
-    /**
-     * newInstance will create and return a new instance of BiteFragment containing a UUID of a Bite.
-     *
-     * @param id The UUID of the Bite.
-     * @return The BiteFragment containing the given UUID.
-     */
-    public static BiteEditFragment newInstance(UUID id) {
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_BITE_ID, id);
-        BiteEditFragment fragment = new BiteEditFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private Photo mFirstPhoto;  // Photo showing bite after 0 days.
+    private Photo mSecondPhoto; // Photo showing bite after 14 days.
+    private Photo mThirdPhoto;  // Photo showing bite after 28 days.
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        if (getArguments().getSerializable(ARG_BITE_ID) != null) {
-            // Retrieve the UUID stored as an argument and find the Bite connected to it.
-            UUID biteId = (UUID) getArguments().getSerializable(ARG_BITE_ID);
-            mBite = BiteLab.get(getActivity()).getBite(biteId);
-        } else {
-            mBite = new Bite();
-        }
+        // Retrieve the UUID stored as an argument and find the Bite connected to it.
+        assert getArguments() != null;
+        UUID biteId = (UUID) getArguments().getSerializable(ARG_BITE_ID);
+        assert biteId != null;
+        mBite = BiteLab.get(getActivity()).getBite(biteId);
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater
+            , @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_edit_bite, container, false);
 
-        mPlacementEditText = v.findViewById(R.id.placement_edit_text);
+        initPlacementEdit(v);
+        initDateButton(v);
+        initStageButton(v);
+        initPhotos(v);
+
+        return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode != Activity.RESULT_OK) return;
+
+        if (requestCode == REQUEST_CALENDAR && data != null) {
+            // Collect Calendar from DatePickerDialog.
+            Calendar c = (Calendar) data.getSerializableExtra(DatePickerFragment.EXTRA_CALENDAR);
+            mBite.setCalendar(c);
+            BiteLab.get(getActivity()).updateBite(mBite);
+            updateUIDate();
+
+        } else if (requestCode == REQUEST_STAGE && data != null) {
+            // Collect stage as String from StagePickerDialog.
+            String s = (String) data.getSerializableExtra(StagePickerFragment.EXTRA_STAGE);
+            mBite.setStage(s);
+            BiteLab.get(getActivity()).updateBite(mBite);
+            updateUIStage();
+
+        } else if (requestCode == REQUEST_FIRST_PHOTO) {
+            mFirstPhoto.handlePhotoRequest();
+
+        } else if (requestCode == REQUEST_SECOND_PHOTO) {
+            mSecondPhoto.handlePhotoRequest();
+
+        } else if (requestCode == REQUEST_THIRD_PHOTO) {
+            mThirdPhoto.handlePhotoRequest();
+
+        }
+    }
+
+    // Initiate EditText field for the placement of Bite.
+    private void initPlacementEdit(View v) {
+        EditText mPlacementEditText = v.findViewById(R.id.placement_edit_text);
         mPlacementEditText.setText(mBite.getPlacement());
         mPlacementEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -98,22 +120,28 @@ public class BiteEditFragment extends Fragment {
                 // No action
             }
         });
+    }
 
+    // Initiate Button for the Date of Bite.
+    private void initDateButton(View v) {
         mDateButton = v.findViewById(R.id.date_button);
-        updateDate();
+        updateUIDate();
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager manager = getParentFragmentManager(); // TODO
+                FragmentManager manager = getParentFragmentManager();
                 DatePickerFragment dialog = DatePickerFragment.newInstance(mBite.getCalendar());
                 // Make BiteEditFragment the target fragment for DatePickerFragment.
                 dialog.setTargetFragment(BiteEditFragment.this, REQUEST_CALENDAR);
                 dialog.show(manager, DIALOG_DATE);
             }
         });
+    }
 
+    // Initiate Button for the stage of Bite.
+    private void initStageButton(View v) {
         mStageButton = v.findViewById(R.id.stage_button);
-        updateStage();
+        updateUIStage();
         mStageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,60 +151,20 @@ public class BiteEditFragment extends Fragment {
                 dialog.show(manager, DIALOG_STAGE);
             }
         });
+    }
 
+    // Initiate the Photos of Bite
+    private void initPhotos(View v) {
         mFirstPhoto = new Photo
                 (getActivity(), v, R.id.first_image_button, mBite, REQUEST_FIRST_PHOTO);
         mSecondPhoto = new Photo
                 (getActivity(), v, R.id.second_image_button, mBite, REQUEST_SECOND_PHOTO);
         mThirdPhoto = new Photo
                 (getActivity(), v, R.id.third_image_button, mBite, REQUEST_THIRD_PHOTO);
-
-        return v;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        Log.e("onPause", "onPause called BiteEditFragment");
-
-        // Update BiteLab's Bite when BiteFragment is done.
-        //BiteLab.get(getActivity()).updateBite(mBite);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mFirstPhoto.updateImageButton();
-        mSecondPhoto.updateImageButton();
-        mThirdPhoto.updateImageButton();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (resultCode != Activity.RESULT_OK) return;
-
-        // Collect the Calendar from the DatePickerFragment.
-        if (requestCode == REQUEST_CALENDAR && data != null) {
-            Calendar c = (Calendar) data.getSerializableExtra(DatePickerFragment.EXTRA_CALENDAR);
-            mBite.setCalendar(c);
-            BiteLab.get(getActivity()).updateBite(mBite);
-            updateDate();
-        } else if (requestCode == REQUEST_STAGE && data != null) {
-            String s = (String) data.getSerializableExtra(StagePickerFragment.EXTRA_STAGE);
-            mBite.setStage(s);
-            BiteLab.get(getActivity()).updateBite(mBite);
-            updateStage();
-        } else if (requestCode == REQUEST_FIRST_PHOTO) {
-            mFirstPhoto.handlePhotoRequest();
-        } else if (requestCode == REQUEST_SECOND_PHOTO) {
-            mSecondPhoto.handlePhotoRequest();
-        } else if (requestCode == REQUEST_THIRD_PHOTO) {
-            mThirdPhoto.handlePhotoRequest();
-        }
-    }
-
-    private void updateDate() {
+    // Update text on Button for the Date to reflect the current state of Bite.
+    private void updateUIDate() {
         Calendar c = mBite.getCalendar();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH)+1;
@@ -184,7 +172,8 @@ public class BiteEditFragment extends Fragment {
         mDateButton.setText(getString(R.string.show_date, day, month, year));
     }
 
-    private void updateStage() {
+    // Update text on Button for the stage to reflect the current state of Bite.
+    private void updateUIStage() {
         mStageButton.setText(getString(R.string.show_stage, mBite.getStage()));
     }
 }
