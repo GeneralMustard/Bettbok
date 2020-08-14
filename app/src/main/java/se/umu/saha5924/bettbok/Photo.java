@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
@@ -48,8 +47,7 @@ public class Photo {
         if (mImageFile == null || !mImageFile.exists()) {
             mImageButton.setImageDrawable(null);
         } else {
-            Bitmap bm = ImageScaler.getScaledBitmap(mImageFile.getPath(), mActivity);
-            mImageButton.setImageBitmap(bm);
+            new AsyncImageScaler(mActivity, mImageButton).execute(mImageFile);
         }
     }
 
@@ -110,5 +108,4 @@ public class Photo {
             mActivity.startActivityForResult(captureImage, mRequest);
         }
     }
-
 }
