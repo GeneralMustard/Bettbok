@@ -1,7 +1,6 @@
 package se.umu.saha5924.bettbok;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +20,12 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * BiteListFragment is responsible for the Fragment connected to a list of Bites.
+ * BiteListFragment is responsible for showing all Bites.
  */
 public class BiteListFragment extends Fragment {
 
-    NavController mNavController;
-
-    private RecyclerView mBiteRecyclerView;
-    private BiteAdapter mBiteAdapter;
-    private FloatingActionButton mAddFab;
+    private NavController mNavController;
+    private RecyclerView mRecyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,20 +35,23 @@ public class BiteListFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater
+            , @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_bite_list, container, false);
 
-        mBiteRecyclerView = v.findViewById(R.id.bite_recycler_view);
-        mBiteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView = v.findViewById(R.id.bite_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mAddFab = v.findViewById(R.id.fab_add_bite);
+        // A floating action button that when pressed will
+        // create a new bite and navigate to BiteEditFragment.
+        FloatingActionButton mAddFab = v.findViewById(R.id.fab_add_bite);
         mAddFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bite bite = new Bite();
                 BiteLab.get(getActivity()).addBite(bite);
-                /*Intent intent = BiteEditActivity.newIntent(getActivity(), bite.getId());
-                startActivity(intent);*/
+
+                // Add the id of the new Bite as an argument in the Bundle.
                 Bundle args = new Bundle();
                 args.putSerializable(BiteFragment.ARG_BITE_ID, bite.getId());
                 mNavController.navigate(R.id.action_biteListFragment_to_biteEditFragment, args);
@@ -69,34 +68,23 @@ public class BiteListFragment extends Fragment {
         mNavController = Navigation.findNavController(view);
     }
 
-    // Updates the list of Bites to reflect the current state of each Bite.
-    private void updateUI() {
-        List<Bite> bites = BiteLab.get(getActivity()).getBites();
-
-        mBiteAdapter = new BiteAdapter(bites);
-        mBiteRecyclerView.setAdapter(mBiteAdapter);
-/*
-        if (mBiteAdapter == null) {
-            // A new adapter is needed.
-            mBiteAdapter = new BiteAdapter(bites);
-            mBiteRecyclerView.setAdapter(mBiteAdapter);
-        } else {
-            // An adapter already exists and is updated to reflect possible changes.
-            mBiteAdapter.setBites(bites);
-            mBiteAdapter.notifyDataSetChanged();
-        }*/
-    }
-
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("onResume", "on resume called BiteListFragment");
         updateUI();
     }
 
-    // TODO move to own class
+    // Update the list of Bites and create an adapter
+    // to reflect the current state of each Bite.
+    private void updateUI() {
+        List<Bite> bites = BiteLab.get(getActivity()).getBites();
+        BiteAdapter mBiteAdapter = new BiteAdapter(bites);
+        mRecyclerView.setAdapter(mBiteAdapter);
+    }
+
+    // The Adapter for the RecyclerView.
     private class BiteAdapter extends RecyclerView.Adapter<BiteAdapter.BiteViewHolder> {
-        private List<Bite> mBite;
+        private List<Bite> mBite; // The list of Bites the Adapter handles.
 
         public BiteAdapter(List<Bite> bite) {
             mBite = bite;
@@ -112,9 +100,11 @@ public class BiteListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull BiteViewHolder holder, int position) {
+            // Find the Bite that should be shown on a certain position.
             Bite currentBite = mBite.get(position);
-            holder.mPlacementTextView.setText(currentBite.getPlacement());
 
+            // Show the information of the Bite
+            holder.mPlacementTextView.setText(currentBite.getPlacement());
             Calendar c = currentBite.getCalendar();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH)+1;
@@ -127,15 +117,7 @@ public class BiteListFragment extends Fragment {
             return mBite.size();
         }
 
-        /**
-         * Replaces the Bites the Adapter shows.
-         *
-         * @param bites The Bites the Adapter should show.
-         */
-        public void setBites(List<Bite> bites) {
-            mBite = bites;
-        }
-
+        // The ViewHolder responsible for showing a Bite in the RecyclerView
         private class BiteViewHolder extends RecyclerView.ViewHolder {
             private TextView mPlacementTextView;
             private TextView mCalendarTextView;
@@ -148,11 +130,11 @@ public class BiteListFragment extends Fragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        /*Intent intent = BiteActivity.newIntent(getActivity(),
-                                mBite.get(getAbsoluteAdapterPosition()).getId());
-                        startActivity(intent);*/
+                        // When a Bite is chosen, pass that Bites id
+                        // to BiteFragment as an argument in the Bundle.
                         Bundle args = new Bundle();
-                        args.putSerializable(BiteFragment.ARG_BITE_ID, mBite.get(getAbsoluteAdapterPosition()).getId());
+                        args.putSerializable(BiteFragment.ARG_BITE_ID
+                                , mBite.get(getAbsoluteAdapterPosition()).getId());
                         mNavController.navigate(R.id.action_biteListFragment_to_biteFragment, args);
                     }
                 });
