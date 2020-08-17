@@ -6,74 +6,64 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.AsyncTask;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import java.io.File;
 
+/**
+ * AsyncImageScaler is responsible for, in a separate thread, scaling an
+ * image on a given filepath to fit a given ImageView.
+ */
 public class AsyncImageScaler extends AsyncTask<File, Void, Bitmap> {
 
     @SuppressLint("StaticFieldLeak")
-    private ImageButton photo;
+    private ImageView view;
 
     private int width;
     private int height;
 
-    public AsyncImageScaler(Activity activity, ImageButton photo) {
+    /**
+     * Constructor for AsyncImageScaler.
+     *
+     * @param activity The active Activity.
+     * @param view The ImageView to display the image.
+     */
+    public AsyncImageScaler(Activity activity, ImageView view) {
+        // Use a conservative estimate of the size of the screen.
         Point size = new Point();
         activity.getWindowManager().getDefaultDisplay()
                 .getSize(size);
         width = size.x;
         height = size.y;
-        this.photo = photo;
+
+        this.view = view;
     }
 
     @Override
     protected Bitmap doInBackground(File... file) {
-        // TODO skriv med egna ord
-        // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = true;
 
+        // Read the File of the image.
         BitmapFactory.decodeFile(file[0].getAbsolutePath(), bmOptions);
 
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
+        // The dimensions of the image.
+        int srcImageWidth = bmOptions.outWidth;
+        int srcImageHeight = bmOptions.outHeight;
 
         // Determine how much to scale down the image
-        int scaleFactor = Math.max(1, Math.min(photoW/width, photoH/height));
+        int inSampleSize = Math.max(1, Math.min(srcImageWidth/width, srcImageHeight/height));
 
-        // Decode the image file into a Bitmap sized to fill the View
+        // Make the photo into a Bitmap with suitable size.
         bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inSampleSize = inSampleSize;
 
+        // Read in and return the final Bitmap.
         return BitmapFactory.decodeFile(file[0].getAbsolutePath(), bmOptions);
     }
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        photo.setImageBitmap(bitmap);
+        view.setImageBitmap(bitmap);
     }
-/*TODO
-    private static Bitmap getScaledBitmap(String path, int destWidth, int destHeight) {
-
-        // Get the size of the saved image.
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-        float srcWidth = options.outWidth;
-        float srcHeight = options.outHeight;
-
-        int inSampleSize = 1;
-        if (srcHeight > destHeight || srcWidth > destWidth) {
-            float heightScale = srcHeight / destHeight;
-            float widthScale = srcWidth / destWidth;
-            inSampleSize = Math.round(Math.max(heightScale, widthScale));
-        }
-
-        options = new BitmapFactory.Options();
-        options.inSampleSize = inSampleSize;
-
-        // Read in and create final bitmap
-        return BitmapFactory.decodeFile(path, options);
-    }*/
 }

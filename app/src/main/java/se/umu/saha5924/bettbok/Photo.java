@@ -41,12 +41,13 @@ public class Photo {
     }
 
     /**
-     * Will update the photo if File exists.
+     * Will update the photo if a File exists.
      */
     public void updateImageButton() {
         if (mImageFile == null || !mImageFile.exists()) {
             mImageButton.setImageDrawable(null);
         } else {
+            // Set a scaled photo from the File on ImageButton
             new AsyncImageScaler(mActivity, mImageButton).execute(mImageFile);
         }
     }
