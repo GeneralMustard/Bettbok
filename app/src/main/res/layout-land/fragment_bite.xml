@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="16dp"
+    tools:context=".BiteFragment">
+
+    <TextView
+        android:id="@+id/placement_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+
+    <LinearLayout
+        android:id="@+id/lin_lay_0"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/center"
+        android:layout_below="@id/placement_text_view"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/date_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/days_since_bite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/stage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/center"
+        android:layout_width="16dp"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:id="@+id/lin_lay_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/placement_text_view"
+        android:layout_toEndOf="@id/center">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="@string/first_photo"/>
+
+        <ImageButton
+            android:id="@+id/first_image_button"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:scaleType="centerInside"
+            android:cropToPadding="true"
+            android:background="@color/colorGray"
+            android:contentDescription="@string/first_photo_description" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_lay_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/placement_text_view"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toEndOf="@id/lin_lay_1"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="@string/second_photo"/>
+
+        <ImageButton
+            android:id="@+id/second_image_button"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:scaleType="centerInside"
+            android:cropToPadding="true"
+            android:background="@color/colorGray"
+            android:contentDescription="@string/second_photo_description" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_lay_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/placement_text_view"
+        android:layout_toEndOf="@id/lin_lay_2">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="@string/third_photo"/>
+
+        <ImageButton
+            android:id="@+id/third_image_button"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:scaleType="centerInside"
+            android:cropToPadding="true"
+            android:background="@color/colorGray"
+            android:contentDescription="@string/third_photo_description" />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_edit_bite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_edit"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp" />
+
+</RelativeLayout>
