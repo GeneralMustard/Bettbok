@@ -1,14 +1,22 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
 
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/colorGray"/>
+
     <TextView
         android:id="@+id/bite_placement_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/image_view"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -16,6 +24,8 @@
     <TextView
         android:id="@+id/bite_date_text_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/image_view"
+        android:layout_below="@id/bite_placement_text_view"/>
 
-</LinearLayout>
+</RelativeLayout>

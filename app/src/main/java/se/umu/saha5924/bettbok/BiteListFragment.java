@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -105,11 +106,16 @@ public class BiteListFragment extends Fragment {
 
             // Show the information of the Bite
             holder.mPlacementTextView.setText(currentBite.getPlacement());
+
             Calendar c = currentBite.getCalendar();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH)+1;
             int day = c.get(Calendar.DAY_OF_MONTH);
             holder.mCalendarTextView.setText(getString(R.string.show_date, day, month, year));
+
+            new AsyncImageScaler(getActivity(), holder.mPhoto)
+                    .execute(BiteLab.get(getActivity()).getFirstImageFile(currentBite));
+
         }
 
         @Override
@@ -121,11 +127,14 @@ public class BiteListFragment extends Fragment {
         private class BiteViewHolder extends RecyclerView.ViewHolder {
             private TextView mPlacementTextView;
             private TextView mCalendarTextView;
+            private ImageView mPhoto;
+
 
             BiteViewHolder(@NonNull View itemView) {
                 super(itemView);
                 mPlacementTextView = itemView.findViewById(R.id.bite_placement_text_view);
                 mCalendarTextView = itemView.findViewById(R.id.bite_date_text_view);
+                mPhoto = itemView.findViewById(R.id.image_view);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
