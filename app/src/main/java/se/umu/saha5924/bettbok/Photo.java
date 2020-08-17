@@ -104,7 +104,8 @@ public class Photo {
 
             // Grant permission to write to specific uri.
             for (ResolveInfo activity : cameraActivities)
-                mActivity.grantUriPermission(activity.activityInfo.packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                mActivity.grantUriPermission(activity.activityInfo.packageName, uri
+                        , Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
             mActivity.startActivityForResult(captureImage, mRequest);
         }

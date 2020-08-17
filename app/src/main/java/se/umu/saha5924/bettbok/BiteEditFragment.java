@@ -46,7 +46,6 @@ public class BiteEditFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
 
         // Retrieve the UUID stored as an argument and find the Bite connected to it.
         assert getArguments() != null;
