@@ -107,11 +107,8 @@ public class BiteListFragment extends Fragment {
             // Show the information of the Bite
             holder.mPlacementTextView.setText(currentBite.getPlacement());
 
-            Calendar c = currentBite.getCalendar();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH)+1;
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            holder.mCalendarTextView.setText(getString(R.string.show_date, day, month, year));
+            holder.mDaysTextView.setText
+                    (getString(R.string.days_since_bite, currentBite.getDaysSinceBite()));
 
             new AsyncImageScaler(getActivity(), holder.mPhoto)
                     .execute(BiteLab.get(getActivity()).getFirstImageFile(currentBite));
@@ -126,14 +123,14 @@ public class BiteListFragment extends Fragment {
         // The ViewHolder responsible for showing a Bite in the RecyclerView
         private class BiteViewHolder extends RecyclerView.ViewHolder {
             private TextView mPlacementTextView;
-            private TextView mCalendarTextView;
+            private TextView mDaysTextView;
             private ImageView mPhoto;
 
 
             BiteViewHolder(@NonNull View itemView) {
                 super(itemView);
-                mPlacementTextView = itemView.findViewById(R.id.bite_placement_text_view);
-                mCalendarTextView = itemView.findViewById(R.id.bite_date_text_view);
+                mPlacementTextView = itemView.findViewById(R.id.placement_text_view);
+                mDaysTextView = itemView.findViewById(R.id.days_since_bite_text_view);
                 mPhoto = itemView.findViewById(R.id.image_view);
 
                 itemView.setOnClickListener(new View.OnClickListener() {

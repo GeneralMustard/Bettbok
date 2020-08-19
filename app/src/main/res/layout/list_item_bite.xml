@@ -13,7 +13,7 @@
         android:background="@color/colorGray"/>
 
     <TextView
-        android:id="@+id/bite_placement_text_view"
+        android:id="@+id/placement_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/image_view"
@@ -22,10 +22,10 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/bite_date_text_view"
+        android:id="@+id/days_since_bite_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/image_view"
-        android:layout_below="@id/bite_placement_text_view"/>
+        android:layout_below="@id/placement_text_view"/>
 
 </RelativeLayout>
