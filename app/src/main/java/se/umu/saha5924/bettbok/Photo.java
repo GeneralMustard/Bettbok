@@ -65,15 +65,13 @@ public class Photo {
     }
 
     /**
-     * Will revoke permission for camera to write to Uri
-     * and update photo to reflect the current File.
+     * Will revoke permission for camera to write to Uri.
      */
     public void handlePhotoRequest() {
         Uri uri = FileProvider.getUriForFile(mActivity
                 , mActivity.getPackageName() + ".fileprovider"
                 , mImageFile);
         mActivity.revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        updateImageButton();
     }
 
     // PhotoButton will make the photo clickable to take a new photo.
