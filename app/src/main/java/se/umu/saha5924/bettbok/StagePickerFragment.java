@@ -32,6 +32,12 @@ public class StagePickerFragment extends DialogFragment {
                         String[] tmp = getResources().getStringArray(R.array.stages_array);
                         sendResult(tmp[which]);
                     }
+                })
+                .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Nothing
+                        }
                 });
         return builder.create();
     }
