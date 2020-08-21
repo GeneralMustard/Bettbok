@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="16dp"
-    tools:context=".BiteEditFragment">
+    tools:context=".controller.BiteEditFragment">
 
     <EditText
         android:id="@+id/placement_edit_text"

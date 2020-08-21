@@ -1,4 +1,4 @@
-package se.umu.saha5924.bettbok;
+package se.umu.saha5924.bettbok.controller;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,8 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Calendar;
 import java.util.List;
+
+import se.umu.saha5924.bettbok.R;
+import se.umu.saha5924.bettbok.model.Bite;
+import se.umu.saha5924.bettbok.model.BiteLab;
 
 /**
  * BiteListFragment is responsible for showing all Bites.

@@ -6,7 +6,7 @@ import android.database.CursorWrapper;
 import java.util.Calendar;
 import java.util.UUID;
 
-import se.umu.saha5924.bettbok.Bite;
+import se.umu.saha5924.bettbok.model.Bite;
 
 import se.umu.saha5924.bettbok.database.BiteDbSchema.BiteTable;
 

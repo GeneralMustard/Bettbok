@@ -1,4 +1,4 @@
-package se.umu.saha5924.bettbok;
+package se.umu.saha5924.bettbok.controller;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -21,6 +21,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
 import java.util.UUID;
+
+import se.umu.saha5924.bettbok.R;
+import se.umu.saha5924.bettbok.model.Bite;
+import se.umu.saha5924.bettbok.model.BiteLab;
 
 public class BiteFragment extends Fragment {
 

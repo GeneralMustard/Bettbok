@@ -1,4 +1,4 @@
-package se.umu.saha5924.bettbok;
+package se.umu.saha5924.bettbok.model;
 
 import android.content.ContentValues;
 import android.content.Context;

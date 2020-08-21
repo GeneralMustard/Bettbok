@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="16dp"
-    tools:context=".BiteFragment">
+    tools:context=".controller.BiteFragment">
 
     <TextView
         android:id="@+id/placement_text_view"

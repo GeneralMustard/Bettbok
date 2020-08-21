@@ -1,4 +1,4 @@
-package se.umu.saha5924.bettbok;
+package se.umu.saha5924.bettbok.controller;
 
 import android.app.Activity;
 import android.content.Intent;

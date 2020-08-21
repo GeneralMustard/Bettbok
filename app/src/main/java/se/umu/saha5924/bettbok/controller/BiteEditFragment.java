@@ -1,4 +1,4 @@
-package se.umu.saha5924.bettbok;
+package se.umu.saha5924.bettbok.controller;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +18,10 @@ import androidx.fragment.app.FragmentManager;
 
 import java.util.Calendar;
 import java.util.UUID;
+
+import se.umu.saha5924.bettbok.R;
+import se.umu.saha5924.bettbok.model.Bite;
+import se.umu.saha5924.bettbok.model.BiteLab;
 
 /**
  * BiteEditFragment is responsible for the Fragment connected to a Bite.
@@ -74,14 +78,14 @@ public class BiteEditFragment extends Fragment {
 
         if (requestCode == REQUEST_CALENDAR && data != null) {
             // Collect Calendar from DatePickerDialog.
-            Calendar c = (Calendar) data.getSerializableExtra(DatePickerFragment.EXTRA_CALENDAR);
+            Calendar c = (Calendar) data.getSerializableExtra(DatePickerDialog.EXTRA_CALENDAR);
             mBite.setCalendar(c);
             BiteLab.get(getActivity()).updateBite(mBite);
             updateUIDate();
 
         } else if (requestCode == REQUEST_STAGE && data != null) {
             // Collect stage as String from StagePickerDialog.
-            String s = (String) data.getSerializableExtra(StagePickerFragment.EXTRA_STAGE);
+            String s = (String) data.getSerializableExtra(StagePickerDialog.EXTRA_STAGE);
             mBite.setStage(s);
             BiteLab.get(getActivity()).updateBite(mBite);
             updateUIStage();
@@ -128,7 +132,7 @@ public class BiteEditFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getParentFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstance(mBite.getCalendar());
+                DatePickerDialog dialog = DatePickerDialog.newInstance(mBite.getCalendar());
                 // Make BiteEditFragment the target fragment for DatePickerFragment.
                 dialog.setTargetFragment(BiteEditFragment.this, REQUEST_CALENDAR);
                 dialog.show(manager, DIALOG_DATE);
@@ -144,7 +148,7 @@ public class BiteEditFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getParentFragmentManager();
-                StagePickerFragment dialog = new StagePickerFragment();
+                StagePickerDialog dialog = new StagePickerDialog();
                 dialog.setTargetFragment(BiteEditFragment.this, REQUEST_STAGE);
                 dialog.show(manager, DIALOG_STAGE);
             }

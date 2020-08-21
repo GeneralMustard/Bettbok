@@ -1,4 +1,4 @@
-package se.umu.saha5924.bettbok;
+package se.umu.saha5924.bettbok.controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,7 +16,9 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
 
-public class DatePickerFragment extends DialogFragment {
+import se.umu.saha5924.bettbok.R;
+
+public class DatePickerDialog extends DialogFragment {
 
     public static final String EXTRA_CALENDAR = "se.umu.saha5924.bettbok.calendar";
     private static final String ARG_CALENDAR = "calendar";
@@ -30,11 +32,11 @@ public class DatePickerFragment extends DialogFragment {
      * @param calendar The calendar for the argument.
      * @return The created DatePickerFragment.
      */
-    public static DatePickerFragment newInstance(Calendar calendar) {
+    public static DatePickerDialog newInstance(Calendar calendar) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_CALENDAR, calendar);
 
-        DatePickerFragment fragment = new DatePickerFragment();
+        DatePickerDialog fragment = new DatePickerDialog();
         fragment.setArguments(args);
         return fragment;
     }

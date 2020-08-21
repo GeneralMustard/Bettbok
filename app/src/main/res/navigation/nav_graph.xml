@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/biteListFragment"
-        android:name="se.umu.saha5924.bettbok.BiteListFragment"
+        android:name="se.umu.saha5924.bettbok.controller.BiteListFragment"
         android:label="fragment_bite_list"
         tools:layout="@layout/fragment_bite_list" >
 
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/biteFragment"
-        android:name="se.umu.saha5924.bettbok.BiteFragment"
+        android:name="se.umu.saha5924.bettbok.controller.BiteFragment"
         android:label="fragment_bite"
         tools:layout="@layout/fragment_bite">
 
@@ -38,7 +38,7 @@
 
     <fragment
         android:id="@+id/biteEditFragment"
-        android:name="se.umu.saha5924.bettbok.BiteEditFragment"
+        android:name="se.umu.saha5924.bettbok.controller.BiteEditFragment"
         android:label="fragment_edit_bite"
         tools:layout="@layout/fragment_edit_bite">
 

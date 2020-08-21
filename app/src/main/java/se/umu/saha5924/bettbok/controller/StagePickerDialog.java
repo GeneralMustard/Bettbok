@@ -1,4 +1,4 @@
-package se.umu.saha5924.bettbok;
+package se.umu.saha5924.bettbok.controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,12 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import se.umu.saha5924.bettbok.R;
+
 /**
- * StagePickerFragment is responsible for the dialog that lets
+ * StagePickerDialog is responsible for the dialog that lets
  * the user choose the stage of the tick that made the bite.
  */
 
-public class StagePickerFragment extends DialogFragment {
+public class StagePickerDialog extends DialogFragment {
 
     public static final String EXTRA_STAGE = "se.umu.saha5924.bettbok.stage";
 

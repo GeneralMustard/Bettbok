@@ -1,9 +1,11 @@
-package se.umu.saha5924.bettbok;
+package se.umu.saha5924.bettbok.controller;
 
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import se.umu.saha5924.bettbok.R;
 
 public class MainActivity extends AppCompatActivity {
 
