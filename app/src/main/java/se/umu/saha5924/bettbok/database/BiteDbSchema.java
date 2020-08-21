@@ -1,5 +1,8 @@
 package se.umu.saha5924.bettbok.database;
 
+/**
+ * BiteDbSchema is responsible for the schema used by the database to store the Bites.
+ */
 public class BiteDbSchema {
 
     public static final class BiteTable {

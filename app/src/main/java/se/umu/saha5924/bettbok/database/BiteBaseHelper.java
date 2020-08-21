@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import se.umu.saha5924.bettbok.database.BiteDbSchema.BiteTable;
 
+/**
+ * BiteBaseHelper is responsible for creating the database used for storing the Bites.
+ */
 public class BiteBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "bitebase.db";
@@ -25,10 +28,8 @@ public class BiteBaseHelper extends SQLiteOpenHelper {
         );
     }
 
-    // TODO Om databasens schema ändras => radera appen från telefonen innan omstart.
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // No action
+        // Not implemented.
     }
 }

@@ -11,7 +11,7 @@ import se.umu.saha5924.bettbok.Bite;
 import se.umu.saha5924.bettbok.database.BiteDbSchema.BiteTable;
 
 /**
- * BiteCursorWrapper is responsible for retrieving a Bite from a Cursor
+ * BiteCursorWrapper is responsible for retrieving a Bite from a Cursor.
  */
 public class BiteCursorWrapper extends CursorWrapper {
 
