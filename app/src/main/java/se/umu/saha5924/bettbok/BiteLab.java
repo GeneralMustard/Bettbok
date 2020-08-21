@@ -26,7 +26,8 @@ public class BiteLab {
     private Context mContext;
 
     /**
-     * Will return an existing BiteLab if there is one. Otherwise a new BiteLab is returned.
+     * Will return an existing BiteLab if there is one.
+     * Otherwise a new BiteLab is returned.
      *
      * @param context The application context.
      * @return The BiteLab.
@@ -36,13 +37,14 @@ public class BiteLab {
         return biteLab;
     }
 
+    // Used for creating a new BiteLab.
     private BiteLab(Context context) {
         mContext = context.getApplicationContext();
         mDatabase = new BiteBaseHelper(mContext).getWritableDatabase();
     }
 
     /**
-     * Add the given Bite to the database.
+     * Add given Bite to database.
      *
      * @param bite The Bite to be added.
      */
@@ -51,7 +53,7 @@ public class BiteLab {
     }
 
     /**
-     * Update the given Bite in the database.
+     * Update given Bite in database.
      *
      * @param bite The Bite to be updated.
      */
@@ -80,8 +82,24 @@ public class BiteLab {
     }
 
     /**
-     * Get a list with all Bites from the database.
-     * The list is sorted by how old the Bite is, where the oldest Bite is last.
+     * Get the Bite with the given id from the database.
+     *
+     * @param id The id of the Bite to be fetched.
+     * @return The Bite with the given id.
+     */
+    public Bite getBite(UUID id) {
+        try (BiteCursorWrapper cursor = queryBites(
+                BiteTable.Cols.UUID + " = ?"
+                , new String[]{id.toString()})) {
+            if (cursor.getCount() == 0) return null;
+            cursor.moveToFirst();
+            return cursor.getBite();
+        }
+    }
+
+    /**
+     * Get a list of all Bites from the database.
+     * The list is sorted by how old the Bites are, where the oldest Bite is last.
      *
      * @return All the Bites in the database.
      */
@@ -97,22 +115,6 @@ public class BiteLab {
         }
         sortBites(bites);
         return bites;
-    }
-
-    /**
-     * Get the Bite with the given id from the database.
-     *
-     * @param id The id of the Bite to be fetched.
-     * @return The Bite with the given id.
-     */
-    public Bite getBite(UUID id) {
-        try (BiteCursorWrapper cursor = queryBites(
-                BiteTable.Cols.UUID + " = ?"
-                , new String[]{id.toString()})) {
-            if (cursor.getCount() == 0) return null;
-            cursor.moveToFirst();
-            return cursor.getBite();
-        }
     }
 
     /**

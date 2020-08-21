@@ -4,6 +4,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * Bite is responsible for the information of and actions possible for a bite.
+ */
 public class Bite {
 
     private UUID mId;           // Id of the Bite.
@@ -44,7 +47,7 @@ public class Bite {
 
     /**
      * Will calculate the number of days from the Bite to current time.
-     * If the current time is before the time of the Bite 0 will be returned.
+     * If the current time is before the time of the Bite, 0 will be returned.
      *
      * @return The number of days between the Bite and current time.
      */
