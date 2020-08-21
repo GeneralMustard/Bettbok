@@ -18,6 +18,10 @@ import java.util.Calendar;
 
 import se.umu.saha5924.bettbok.R;
 
+/**
+ * DatePickerDialog is responsible for displaying the
+ * dialog that lets the user choose a date for the Bite.
+ */
 public class DatePickerDialog extends DialogFragment {
 
     public static final String EXTRA_CALENDAR = "se.umu.saha5924.bettbok.calendar";
@@ -26,11 +30,11 @@ public class DatePickerDialog extends DialogFragment {
     private DatePicker mDatePicker;
 
     /**
-     * newInstance will create and return a DatePickerFragment
+     * newInstance will create and return a DatePickerDialog
      * containing a Calendar as an argument in the Bundle.
      *
      * @param calendar The calendar for the argument.
-     * @return The created DatePickerFragment.
+     * @return The created DatePickerDialog.
      */
     public static DatePickerDialog newInstance(Calendar calendar) {
         Bundle args = new Bundle();

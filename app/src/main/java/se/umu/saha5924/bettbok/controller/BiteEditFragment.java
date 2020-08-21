@@ -24,7 +24,7 @@ import se.umu.saha5924.bettbok.model.Bite;
 import se.umu.saha5924.bettbok.model.BiteLab;
 
 /**
- * BiteEditFragment is responsible for the Fragment connected to a Bite.
+ * BiteEditFragment is responsible for the Fragment used to edit a Bite.
  */
 public class BiteEditFragment extends Fragment {
 

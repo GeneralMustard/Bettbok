@@ -17,7 +17,6 @@ import se.umu.saha5924.bettbok.R;
  * StagePickerDialog is responsible for the dialog that lets
  * the user choose the stage of the tick that made the bite.
  */
-
 public class StagePickerDialog extends DialogFragment {
 
     public static final String EXTRA_STAGE = "se.umu.saha5924.bettbok.stage";

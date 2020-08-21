@@ -10,7 +10,8 @@
         android:layout_width="40dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/colorGray"/>
+        android:background="@color/colorGray"
+        android:contentDescription="@string/first_photo_description" />
 
     <TextView
         android:id="@+id/placement_text_view"

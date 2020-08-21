@@ -19,8 +19,8 @@ public class AsyncImageScaler extends AsyncTask<File, Void, Bitmap> {
     @SuppressLint("StaticFieldLeak")
     private ImageView view;
 
-    private int width;
-    private int height;
+    private int imageWidth; // The original width of the image.
+    private int imageHeight;// The original height of the image.
 
     /**
      * Constructor for AsyncImageScaler.
@@ -33,8 +33,8 @@ public class AsyncImageScaler extends AsyncTask<File, Void, Bitmap> {
         Point size = new Point();
         activity.getWindowManager().getDefaultDisplay()
                 .getSize(size);
-        width = size.x;
-        height = size.y;
+        imageWidth = size.x;
+        imageHeight = size.y;
 
         this.view = view;
     }
@@ -52,7 +52,7 @@ public class AsyncImageScaler extends AsyncTask<File, Void, Bitmap> {
         int srcImageHeight = bmOptions.outHeight;
 
         // Determine how much to scale down the image
-        int inSampleSize = Math.max(1, Math.min(srcImageWidth/width, srcImageHeight/height));
+        int inSampleSize = Math.max(1, Math.min(srcImageWidth/ imageWidth, srcImageHeight/ imageHeight));
 
         // Make the photo into a Bitmap with suitable size.
         bmOptions.inJustDecodeBounds = false;

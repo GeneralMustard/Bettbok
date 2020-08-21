@@ -26,6 +26,9 @@ import se.umu.saha5924.bettbok.R;
 import se.umu.saha5924.bettbok.model.Bite;
 import se.umu.saha5924.bettbok.model.BiteLab;
 
+/**
+ * BiteFragment is responsible for the Fragment used to display a Bite.
+ */
 public class BiteFragment extends Fragment {
 
     public static final String ARG_BITE_ID = "bite_id";

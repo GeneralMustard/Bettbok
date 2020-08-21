@@ -31,12 +31,6 @@ public class BiteListFragment extends Fragment {
     private NavController mNavController;
     private RecyclerView mRecyclerView;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater
@@ -107,7 +101,7 @@ public class BiteListFragment extends Fragment {
             // Find the Bite that should be shown on a certain position.
             Bite currentBite = mBite.get(position);
 
-            // Show the information of the Bite
+            // Show the information of the Bite.
             holder.mPlacementTextView.setText(currentBite.getPlacement());
 
             holder.mDaysTextView.setText
@@ -123,7 +117,7 @@ public class BiteListFragment extends Fragment {
             return mBite.size();
         }
 
-        // The ViewHolder responsible for showing a Bite in the RecyclerView
+        // The ViewHolder responsible for showing a Bite in the RecyclerView.
         private class BiteViewHolder extends RecyclerView.ViewHolder {
             private TextView mPlacementTextView;
             private TextView mDaysTextView;
@@ -139,7 +133,7 @@ public class BiteListFragment extends Fragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // When a Bite is chosen, pass that Bites id
+                        // When a Bite is chosen, pass that Bite's id
                         // to BiteFragment as an argument in the Bundle.
                         Bundle args = new Bundle();
                         args.putSerializable(BiteFragment.ARG_BITE_ID
