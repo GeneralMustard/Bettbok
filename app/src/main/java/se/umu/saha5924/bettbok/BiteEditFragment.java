@@ -39,9 +39,9 @@ public class BiteEditFragment extends Fragment {
     private Button mDateButton; // Button for changing date.
     private Button mStageButton;// Button for changing stage.
 
-    private Photo mFirstPhoto;  // Photo showing bite after 0 days.
-    private Photo mSecondPhoto; // Photo showing bite after 14 days.
-    private Photo mThirdPhoto;  // Photo showing bite after 28 days.
+    private Image mFirstPhoto;  // Photo showing bite after 0 days.
+    private Image mSecondPhoto; // Photo showing bite after 14 days.
+    private Image mThirdPhoto;  // Photo showing bite after 28 days.
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,16 +94,7 @@ public class BiteEditFragment extends Fragment {
 
         } else if (requestCode == REQUEST_THIRD_PHOTO) {
             mThirdPhoto.handlePhotoRequest();
-
         }
-    }
-
-    @Override
-    public void onResume() {
-        mFirstPhoto.updateImageButton();
-        mSecondPhoto.updateImageButton();
-        mThirdPhoto.updateImageButton();
-        super.onResume();
     }
 
     // Initiate EditText field for the placement of Bite.
@@ -162,14 +153,14 @@ public class BiteEditFragment extends Fragment {
 
     // Initiate the Photos of Bite.
     private void initPhotos(View v) {
-        mFirstPhoto = new Photo
-                (getActivity(), v, R.id.first_image_button
+        mFirstPhoto = new Image
+                (this, v, R.id.first_image_button
                         , BiteLab.get(getActivity()).getFirstImageFile(mBite));
-        mSecondPhoto = new Photo
-                (getActivity(), v, R.id.second_image_button
+        mSecondPhoto = new Image
+                (this, v, R.id.second_image_button
                         , BiteLab.get(getActivity()).getSecondImageFile(mBite));
-        mThirdPhoto = new Photo
-                (getActivity(), v, R.id.third_image_button
+        mThirdPhoto = new Image
+                (this, v, R.id.third_image_button
                         , BiteLab.get(getActivity()).getThirdImageFile(mBite));
 
         // Activate Button on Photos to take new photos.
