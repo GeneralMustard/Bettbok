@@ -33,7 +33,7 @@ public class BiteFragment extends Fragment {
 
     public static final String ARG_BITE_ID = "bite_id";
 
-    NavController mNavController;
+    private NavController mNavController;
 
     private UUID mBiteId;                   // Id of Bite.
     private TextView mPlacementTextView;    // TextView for showing placement of Bite.

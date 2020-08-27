@@ -21,8 +21,8 @@ import se.umu.saha5924.bettbok.database.BiteDbSchema.BiteTable;
  */
 public class BiteLab {
 
-    private SQLiteDatabase mDatabase;
     private static BiteLab biteLab;
+    private SQLiteDatabase mDatabase;
     private Context mContext;
 
     /**

@@ -98,6 +98,9 @@ public class Image {
             mRequest = request;
         }
 
+        // Inspiration for this method comes from the book:
+        // Android Programming - The Big Nerd Ranch Guide (page 312)
+        // written by Chris Stewart and Kristin Marsicano.
         @Override
         public void onClick(View v) {
             Activity a = mFragment.getActivity();

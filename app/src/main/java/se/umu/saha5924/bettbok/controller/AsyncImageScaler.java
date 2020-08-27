@@ -39,6 +39,9 @@ public class AsyncImageScaler extends AsyncTask<File, Void, Bitmap> {
         this.view = view;
     }
 
+    // Inspiration for the implementation of this background comes from
+    // Android Developers explanation on how to decode a scaled image.
+    // https://developer.android.com/training/camera/photobasics#TaskScalePhoto
     @Override
     protected Bitmap doInBackground(File... file) {
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -51,7 +54,7 @@ public class AsyncImageScaler extends AsyncTask<File, Void, Bitmap> {
         int srcImageWidth = bmOptions.outWidth;
         int srcImageHeight = bmOptions.outHeight;
 
-        // Determine how much to scale down the image
+        // Get how much the image should be scaled.
         int inSampleSize = Math.max(1, Math.min(srcImageWidth/ imageWidth, srcImageHeight/ imageHeight));
 
         // Make the photo into a Bitmap with suitable size.

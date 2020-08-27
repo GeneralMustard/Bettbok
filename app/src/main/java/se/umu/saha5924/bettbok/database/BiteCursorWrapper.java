@@ -24,6 +24,11 @@ public class BiteCursorWrapper extends CursorWrapper {
         super(cursor);
     }
 
+    /**
+     * Retrieves a Bite from the CursorWrapper.
+     *
+     * @return The retrieved Bite.
+     */
     public Bite getBite() {
         String uuidString = getString(getColumnIndex(BiteTable.Cols.UUID));
         String placement = getString(getColumnIndex(BiteTable.Cols.PLACEMENT));
