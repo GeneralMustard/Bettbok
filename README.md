@@ -9,6 +9,6 @@ The project is part of the last module in the course Development of Mobile Appli
 * [Model](./app/src/main/java/se/umu/saha5924/bettbok/model) => Contains the model of a bite
 * [Database](./app/src/main/java/se/umu/saha5924/bettbok/database) => An SQLite database to save the bites
 
-Full documentation: [Bettbok doc.pdf](Bettbok doc.pdf)
+Full documentation: [Bettbok doc.pdf](./Bettbok doc.pdf)
 
 Course: https://www.umu.se/utbildning/kursplan/5dv209/
