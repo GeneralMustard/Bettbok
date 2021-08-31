@@ -39,7 +39,7 @@ public class AsyncImageScaler extends AsyncTask<File, Void, Bitmap> {
         this.view = view;
     }
 
-    // Inspiration for the implementation of this background comes from
+    // Inspiration for the implementation of this method comes from
     // Android Developers explanation on how to decode a scaled image.
     // https://developer.android.com/training/camera/photobasics#TaskScalePhoto
     @Override
