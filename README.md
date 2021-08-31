@@ -5,10 +5,10 @@ Bettbok is an android app that helps you keep track of your tick bites. The user
 The project is part of the last module in the course Development of Mobile Applications at Umeå University in 2020.
 
 ## Structure
-* [Controller] (./app/src/main/java/se/umu/saha5924/bettbok/controller) Navigation of the application through fragments
-* [Model] (./app/src/main/java/se/umu/saha5924/bettbok/model) Contains the model of a bite
-* [Database] (./app/src/main/java/se/umu/saha5924/bettbok/database) An SQLite database to save the bites
+* [Controller](./app/src/main/java/se/umu/saha5924/bettbok/controller) => Navigation of the application through fragments
+* [Model](./app/src/main/java/se/umu/saha5924/bettbok/model) => Contains the model of a bite
+* [Database](./app/src/main/java/se/umu/saha5924/bettbok/database) => An SQLite database to save the bites
 
-Full documentation: [Bettbok doc.pdf]
+Full documentation: [Bettbok doc.pdf](Bettbok doc.pdf)
 
 Course: https://www.umu.se/utbildning/kursplan/5dv209/
